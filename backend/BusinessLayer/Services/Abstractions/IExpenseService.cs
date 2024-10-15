@@ -17,5 +17,6 @@ namespace BusinessLayer.Services.Abstractions
         Task<string> UpdateExpenseAsync(UpdateExpenseDto updateDto);
         Task<string> DeleteExpenseAsync(int id);
         Task<string> ActiveExpenseAsync(int id);
+        Task<decimal> GetTotalExpense();
     }
 }

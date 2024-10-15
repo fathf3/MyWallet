@@ -12,11 +12,16 @@ namespace BusinessLayer.Services.Abstractions
 	{
 		Task<List<ResultIncomeDto>> GetAllIncomes();
 		Task<List<ResultIncomeDto>> GetAllIncomesWithCategory();
-		Task CreateIncomeAsync(CreateIncomeDto createDto);
+		Task<List<ResultIncomeDto>> GetIncomeWithDateFilter();
+
+        Task CreateIncomeAsync(CreateIncomeDto createDto);
 		Task<GetIncomeDto> GetIncomeById(int id);
 		Task<string> UpdateIncomeAsync(UpdateIncomeDto updateDto);
 		Task<string> DeleteIncomeAsync(int id);
 		Task<string> ActiveIncomeAsync(int id);
+		Task<decimal> GetTotalIncome();
+		Task<decimal> GetTotalIncomeThisMonth();
+		Task<decimal> GetIncomeDifWithLastMonth();
 
     }
 }

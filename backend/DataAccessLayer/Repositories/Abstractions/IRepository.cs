@@ -16,7 +16,10 @@ namespace DataAccessLayer.Repositories.Abstractions
 		Task<T> GetByIdAsync(int id);
 		Task<T> UpdateAsync(T entity);
 		Task DeleteAsync(T entity);
-		Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
+        Task<decimal> SumAsync(Expression<Func<T, bool>> predicates, Expression<Func<T, decimal>> predicate);
+
+
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
 		Task<int> CountAsync(Expression<Func<T, bool>> predicate = null);
 
 	}

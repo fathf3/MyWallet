@@ -70,5 +70,12 @@ namespace BusinessLayer.Services.Concretes
             await _unitOfWork.SaveAsync();
             return updateDto.Id.ToString();
         }
+        public async Task<decimal> GetTotalExpense()
+        {
+            var sumExpense = await _unitOfWork
+                .GetRepository<Expense>()
+                .SumAsync(x => x.Status, y => y.Cost);
+            return sumExpense;
+        }
     }
 }
