@@ -1,0 +1,45 @@
+﻿@model UpdatePaymentDto
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Ödeme Güncelle</h4>
+        <hr>
+        <form class="form-group" asp-controller="Payment" asp-action="Update" method="post">
+
+            <p>Ödeme Miktari</p>
+            <div class="form-group">
+                <div class="input-group">
+                    <input asp-for="Amount" type="text" class="form-control" placeholder="500" aria-describedby="basic-addon1" required>
+                </div>
+            </div>
+            <p>Müşteri</p>
+            <div class="form-group">
+                <select id="customerList" class="form-control" asp-for="CustomerId" asp-items="@(new SelectList(Model.Customers,"Id","Name"))" required></select>
+            </div>
+            <p>Ödeme Durumu</p>
+            <div class="form-group">
+                <select asp-for="IsPaid" id="paymentStatus" class="form-control" required>
+                    <option value='true'>Ödendi</option>
+                    <option value='false'>Ödeme Bekliyor</option>
+
+                </select>
+            </div>
+
+
+            <div class="form-group">
+
+                <input asp-for="PaymentDate" type="date" value="@DateTime.Now.Date.ToShortDateString()" required />
+            </div>
+            <div class="form-group text-center align-items-center">
+                <button class="btn btn-outline-success  ">Kaydet</btn>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

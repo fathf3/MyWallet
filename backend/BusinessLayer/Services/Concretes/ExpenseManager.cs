@@ -77,5 +77,62 @@ namespace BusinessLayer.Services.Concretes
                 .SumAsync(x => x.Status, y => y.Cost);
             return sumExpense;
         }
+
+        public async Task<decimal> GetTotalExpenseThisMonth()
+        {
+
+            var sumExpense = await _unitOfWork
+                .GetRepository<Expense>()
+                .SumAsync(x => x.Status && (x.ExpenseDate.Month == DateTime.Now.Month) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
+            return sumExpense;
+        }
+
+        public async Task<decimal> GetExpenseDifWithLastMonth()
+        {
+
+            var sumExpense = await _unitOfWork
+                .GetRepository<Expense>()
+                .SumAsync(x => x.Status && (x.ExpenseDate.Month == DateTime.Now.Month) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
+            var sumExpense2 = await _unitOfWork
+               .GetRepository<Expense>()
+               .SumAsync(x => x.Status && (x.ExpenseDate.Month == DateTime.Now.Month - 1) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
+            if (sumExpense == 0 || sumExpense2 == 0)
+            {
+                return 100;
+            }
+            else
+            {
+                decimal result = ((sumExpense - sumExpense2) / sumExpense) * 100;
+                return result;
+            }
+
+        }
+
+        public async Task<decimal> GetTotalExpenseDay()
+        {
+            var sumExpense = await _unitOfWork
+               .GetRepository<Expense>()
+               .SumAsync(x => x.Status && (x.ExpenseDate.Day == DateTime.Now.Day) && (x.ExpenseDate.Month == DateTime.Now.Month) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
+            return sumExpense;
+        }
+
+        public async Task<decimal> GetExpenseDifLastDay()
+        {
+            var sumExpense = await _unitOfWork
+                 .GetRepository<Expense>()
+                 .SumAsync(x => x.Status && (x.ExpenseDate.Day == DateTime.Now.Day) && (x.ExpenseDate.Month == DateTime.Now.Month) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
+            var sumExpense2 = await _unitOfWork
+               .GetRepository<Expense>()
+               .SumAsync(x => x.Status && (x.ExpenseDate.Day == DateTime.Now.Day - 1) && (x.ExpenseDate.Month == DateTime.Now.Month) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
+            if (sumExpense == 0 || sumExpense2 == 0)
+            {
+                return 100;
+            }
+            else
+            {
+                decimal result = ((sumExpense - sumExpense2) / sumExpense) * 100;
+                return result;
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DtoLayer.Dtos.CategoryDtos;
+using DtoLayer.Dtos.CustomerDtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +15,6 @@ namespace DtoLayer.Dtos.PaymentDtos
 		public decimal Amount { get; set; }
 		public bool IsPaid { get; set; }
         public bool Status { get; set; }
+        public IList<ResultCustomerDto> Customers { get; set; }
     }
 }

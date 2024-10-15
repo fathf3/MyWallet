@@ -1,0 +1,85 @@
+﻿@model List<ResultCustomerDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;
+    string badgeInfo = "";
+    string textInfo = "";
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+
+            <a class="nav-link btn btn-success create-new-button" href="/Customer/Create/">+ Yeni Müşteri Ekle</a>
+            <hr>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Müşteri Adı Soyadı</th>
+                            <th>Telefon Numarası</th>
+                            <th>Müşteri Durumu</th>
+                            <th>Aktif</th>
+                            <th>Pasif</th>
+                            <th>Güncelle</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var customer in Model)
+                        {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td>@customer.Name @customer.LastName</td>
+                                <td>@customer.Phone</td>
+                                <td>
+                                    @if (customer.Status)
+                                    {
+                                        badgeInfo = "badge badge-success";
+                                        textInfo = "Aktif";
+
+
+                                    }
+                                    else
+                                    {
+                                        badgeInfo = "badge badge-danger";
+                                        textInfo = "Pasif";
+
+                                    }
+
+                                    <label class="@badgeInfo">@textInfo</label>
+                                </td>
+                               
+                                <td>
+                                    <a class="btn btn-outline-info btn-group-lg" href="/Customer/Active/@customer.Id">
+                                        <i class="mdi mdi-plus-circle"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-primary btn-group-lg" href="/Customer/Delete/@customer.Id">
+                                        <i class="mdi mdi-minus"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-warning btn-group-lg" href="/Customer/Update/@customer.Id">
+                                        <i class="mdi mdi-database"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
