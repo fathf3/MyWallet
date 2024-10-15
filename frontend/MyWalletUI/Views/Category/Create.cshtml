@@ -1,0 +1,42 @@
+﻿@model CreateCategoryDto
+@{
+    ViewData["Title"] = "Kategori Ekleme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Kategori Güncelle</h4>
+        <hr>
+        <form class="form-group" asp-controller="Category" asp-action="Update" method="post">
+            
+            <p>Kategori Adı</p>
+            <div class="form-group">
+                <div class="input-group">
+
+                    <input asp-for="Name" type="text" class="form-control" placeholder="Kategori Adı" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <p>Kategori Tipi</p>
+            <div class="form-group">
+                <select asp-for="CategoryType" id="categorystatus" class="form-control">
+                    <option value='true'>Gelir</option>
+                    <option value='false'>Gider</option>
+
+                </select>
+            </div>
+            <p>Kategori Durumu</p>
+            <div class="form-group">
+                <select asp-for="Status" id="categorystatus" class="form-control">
+                    <option value='true'>Aktif</option>
+                    <option value='false'>Pasif</option>
+
+                </select>
+            </div>
+            <div class="form-group text-center align-items-center">
+                <button class="btn btn-outline-success  ">Kaydet</btn>
+            </div>
+        </form>
+    </div>
+</div>
+

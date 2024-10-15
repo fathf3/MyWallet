@@ -1,0 +1,70 @@
+﻿@model List<ResultIncomeDto>
+@{
+    ViewData["Title"] = "Gelir Sayfası";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;
+}
+
+
+
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+
+            <a class="nav-link btn btn-success create-new-button" href="/Income/Create/">+ Yeni Gelir Ekle</a>
+            <hr>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Miktar</th>
+                            <th>Kategori</th>
+                            <th>Tarih</th>
+                            <th>Aktif</th>
+                            <th>Pasif</th>
+                            <th>Güncelle</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var income in Model)
+                        {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td>@income.Cost ₺</td>
+                                <td>
+                                    <label class="badge badge-success">@income.Category.Name</label>
+                                </td>
+                                <td>@income.IncomeDate.ToShortDateString()</td>
+                                <td>
+                                    <a class="btn btn-outline-info btn-group-lg" href="/Income/Active/@income.Id">
+                                        <i class="mdi mdi-plus-circle"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-primary btn-group-lg" href="/Income/Delete/@income.Id">
+                                        <i class="mdi mdi-minus"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-warning btn-group-lg" href="/Income/Update/@income.Id">
+                                        <i class="mdi mdi-database"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
