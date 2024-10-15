@@ -9,11 +9,13 @@ namespace MyWalletUI.Controllers
     {
         private readonly IIncomeService _incomeService;
         private readonly IMapper _mapper;
+        private readonly ICategoryService _categoryService;
 
-        public IncomeController(IIncomeService incomeService, IMapper mapper)
+        public IncomeController(IIncomeService incomeService, IMapper mapper, ICategoryService categoryService)
         {
             _incomeService = incomeService;
             _mapper = mapper;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -28,20 +30,24 @@ namespace MyWalletUI.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var income = await _incomeService.GetIncomeById(id);
+            var categories = await _categoryService.GetAllActiveCategoriesForIncome();
+            
             var map = _mapper.Map<UpdateIncomeDto>(income);
+            map.Categories = categories;
             return View(map);
         }
         [HttpPost]
         public async Task<IActionResult> Update(UpdateIncomeDto updateIncomeDto)
         {
-            var income = await _incomeService.UpdateIncomeAsync(updateIncomeDto);
-
+            await _incomeService.UpdateIncomeAsync(updateIncomeDto);
             return RedirectToAction("Index", "Income");
         }
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            return View();
+            var categories = await _categoryService.GetAllActiveCategoriesForIncome();
+            return View(new CreateIncomeDto { Categories = categories});
         }
 
         [HttpPost]

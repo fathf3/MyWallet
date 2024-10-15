@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Services.Concretes
 {
-	public class CategoryManager : ICategoryService
+    public class CategoryManager : ICategoryService
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
@@ -66,5 +66,26 @@ namespace BusinessLayer.Services.Concretes
 			await _unitOfWork.SaveAsync();
 			return updateDto.Name;
 		}
-	}
+
+        public async Task<List<ResultCategoryDto>> GetAllActiveCategories()
+        {
+            var catagories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => x.Status);
+            var map = _mapper.Map<List<ResultCategoryDto>>(catagories);
+            return map;
+        }
+
+        public async Task<List<ResultCategoryDto>> GetAllActiveCategoriesForIncome()
+        {
+            var catagories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => x.Status && x.CategoryType == true);
+            var map = _mapper.Map<List<ResultCategoryDto>>(catagories);
+            return map;
+        }
+
+        public async Task<List<ResultCategoryDto>> GetAllActiveCategoriesForExpense()
+        {
+            var catagories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => x.Status && x.CategoryType == false);
+            var map = _mapper.Map<List<ResultCategoryDto>>(catagories);
+            return map;
+        }
+    }
 }

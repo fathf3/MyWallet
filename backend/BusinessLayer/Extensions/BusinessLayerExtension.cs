@@ -15,6 +15,7 @@ namespace BusinessLayer.Extensions
 
 			services.AddScoped<ICategoryService, CategoryManager>();
 			services.AddScoped<IIncomeService, IncomeManager>();
+			services.AddScoped <IExpenseService, ExpenseManager>();
 
 			return services;
 		}

@@ -18,6 +18,7 @@ namespace BusinessLayer.AutoMapper
 			CreateMap<Income, ResultIncomeDto>().ReverseMap();
 			CreateMap<Income, GetIncomeDto>().ReverseMap();
 			CreateMap<UpdateIncomeDto, GetIncomeDto>().ReverseMap();
+			CreateMap<Income, DashboardIncomeDto>().ReverseMap();
 		}
 	}
 }

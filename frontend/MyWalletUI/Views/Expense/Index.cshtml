@@ -1,6 +1,6 @@
-﻿@model List<ResultIncomeDto>
+﻿@model List<ResultExpenseDto>
 @{
-    ViewData["Title"] = "Gelir Sayfası";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int count = 0;
 }
@@ -13,7 +13,7 @@
         <div class="card-body">
 
 
-            <a class="nav-link btn btn-success create-new-button" href="/Income/Create/">+ Yeni Gelir Ekle</a>
+            <a class="nav-link btn btn-danger create-new-button" href="/Expense/Create/">+ Yeni Gider Ekle</a>
             <hr>
             <div class="table-responsive">
                 <table class="table">
@@ -30,28 +30,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var income in Model)
+                        @foreach (var expense in Model)
                         {
                             count++;
                             <tr>
                                 <td>@count</td>
-                                <td>@income.Cost ₺</td>
+                                <td>@expense.Cost ₺</td>
                                 <td>
-                                    <label class="badge badge-success">@income.Category.Name</label>
+                                    <label class="badge badge-success">@expense.Category.Name</label>
                                 </td>
-                                <td>@income.IncomeDate.ToShortDateString()</td>
-                           @*      <td>
-                                    <a class="btn btn-outline-info btn-group-lg" href="/Income/Active/@income.Id">
-                                        <i class="mdi mdi-plus-circle"></i>
-                                    </a>
-                                </td> *@
+                                <td>@expense.ExpenseDate.ToShortDateString()</td>
+                                @*      <td>
+                            <a class="btn btn-outline-info btn-group-lg" href="/Expense/Active/@expense.Id">
+                            <i class="mdi mdi-plus-circle"></i>
+                            </a>
+                            </td> *@
                                 <td>
-                                    <a class="btn btn-outline-danger btn-group-lg" href="/Income/Delete/@income.Id">
+                                    <a class="btn btn-outline-danger btn-group-lg" href="/Expense/Delete/@expense.Id">
                                         <i class="mdi mdi-close-circle-outline"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-warning btn-group-lg" href="/Income/Update/@income.Id">
+                                    <a class="btn btn-outline-warning btn-group-lg" href="/Expense/Update/@expense.Id">
                                         <i class="mdi mdi-database"></i>
                                     </a>
                                 </td>
