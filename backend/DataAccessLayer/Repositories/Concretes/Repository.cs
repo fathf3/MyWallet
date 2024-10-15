@@ -2,11 +2,12 @@
 using DataAccessLayer.Context;
 using DataAccessLayer.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concretes
 {
-	public class Repository<T> : IRepository<T> where T : class, IEntityBase, new()
+    public class Repository<T> : IRepository<T> where T : class, IEntityBase, new()
 	{
 		private readonly AppDbContext _appDbContext;
 		public Repository(AppDbContext dbContext)
@@ -73,5 +74,14 @@ namespace DataAccessLayer.Repositories.Concretes
 				return await Table.CountAsync(predicate);
 			return await Table.CountAsync();
 		}
-	}
+
+        public async Task<decimal> SumAsync(Expression<Func<T, bool>> predicates, Expression<Func<T, decimal>> predicate)
+        {
+			return await Table
+				.Where(predicates)
+				.SumAsync(predicate);
+        }
+
+        
+    }
 }
