@@ -7,5 +7,6 @@
 		public DateTime PaymentDate { get; set; }
 		public decimal Amount { get; set; }
 		public bool IsPaid { get; set; }
-	}
+        public bool Status { get; set; }
+    }
 }

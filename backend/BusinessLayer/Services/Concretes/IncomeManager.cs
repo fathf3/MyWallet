@@ -79,6 +79,14 @@ namespace BusinessLayer.Services.Concretes
                 .SumAsync(x => x.Status, y => y.Cost);
             return sumIncome;
         }
+        public async Task<List<ResultIncomeDto>> GetIncomeWithDateFilter()
+        {
+            var result = await _unitOfWork
+               .GetRepository<Income>()
+               .GetAllAsync(x => (x.Status) && (x.IncomeDate.Month == 11) && (x.IncomeDate.Year == 2024));
+            var map = _mapper.Map<List<ResultIncomeDto>>(result);
+            return map;
+        }
         public async Task<decimal> GetTotalIncomeThisMonth()
         {
 
@@ -109,13 +117,31 @@ namespace BusinessLayer.Services.Concretes
 
         }
 
-        public async Task<List<ResultIncomeDto>> GetIncomeWithDateFilter()
+        public async Task<decimal> GetTotalIncomeDay()
         {
-            var result = await _unitOfWork
+            var sumIncome = await _unitOfWork
                .GetRepository<Income>()
-               .GetAllAsync(x => (x.Status) && (x.IncomeDate.Month == 11) && (x.IncomeDate.Year == 2024));
-            var map = _mapper.Map<List<ResultIncomeDto>>(result);
-            return map;
+               .SumAsync(x => x.Status && (x.IncomeDate.Day == DateTime.Now.Day) && (x.IncomeDate.Month == DateTime.Now.Month) && (x.IncomeDate.Year == DateTime.Now.Year), y => y.Cost);
+            return sumIncome;
+        }
+
+        public async Task<decimal> GetIncomeDifLastDay()
+        {
+            var sumIncome = await _unitOfWork
+                 .GetRepository<Income>()
+                 .SumAsync(x => x.Status && (x.IncomeDate.Day == DateTime.Now.Day) && (x.IncomeDate.Month == DateTime.Now.Month) && (x.IncomeDate.Year == DateTime.Now.Year), y => y.Cost);
+            var sumIncome2 = await _unitOfWork
+               .GetRepository<Income>()
+               .SumAsync(x => x.Status && (x.IncomeDate.Day == DateTime.Now.Day-1) && (x.IncomeDate.Month == DateTime.Now.Month) && (x.IncomeDate.Year == DateTime.Now.Year), y => y.Cost);
+            if (sumIncome == 0 || sumIncome2 == 0)
+            {
+                return 100;
+            }
+            else
+            {
+                decimal result = ((sumIncome - sumIncome2) / sumIncome) * 100;
+                return result;
+            }
         }
     }
 }

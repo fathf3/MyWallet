@@ -21,14 +21,27 @@ namespace MyWalletUI.Controllers
 
         public async Task<IActionResult> Index()
 		{
+			// Ust 3 Alan
 			ViewBag.totalIncome = await _incomeService.GetTotalIncome();
 			ViewBag.totalExpense = await _expenseService.GetTotalExpense();
 			ViewBag.totalBalance = ViewBag.totalIncome- ViewBag.totalExpense;
-			ViewBag.totalIncomeMonth = ViewBag.totalIncome- ViewBag.totalExpense;
-			ViewBag.income = await _incomeService.GetIncomeWithDateFilter();
-			ViewBag.incomeThisMonth = await _incomeService.GetTotalIncomeThisMonth();
+
+			// Günlük Gelir Hesaplama
+			ViewBag.incomeDay = await _incomeService.GetTotalIncomeDay();
+			ViewBag.incomeDayDif = await _incomeService.GetIncomeDifLastDay();
+
+            // Aylık Gelir Hesaplama
+            ViewBag.incomeThisMonth = await _incomeService.GetTotalIncomeThisMonth();
 			ViewBag.incomeThisMonthDif = await _incomeService.GetIncomeDifWithLastMonth();
-			return View();
+
+            // Günlük Gider Hesaplama
+            ViewBag.expenseDay = await _expenseService.GetTotalExpenseDay();
+            ViewBag.expenseDayDif = await _expenseService.GetExpenseDifLastDay();
+
+            // Aylık Gider Hesaplama
+            ViewBag.expenseThisMonth = await _expenseService.GetTotalExpenseThisMonth();
+            ViewBag.expenseThisMonthDif = await _expenseService.GetExpenseDifWithLastMonth();
+            return View();
 		}
 
 		
