@@ -11,6 +11,8 @@ namespace BusinessLayer.Services.Abstractions
 	{
 
 		Task<List<ResultCategoryDto>> GetAllCategories();
+		Task<List<ResultCategoryDto>> GetAllActiveCategoriesForIncome();
+		Task<List<ResultCategoryDto>> GetAllActiveCategoriesForExpense();
 		Task CreateCategoryAsync(CreateCategoryDto createDto);
 		Task<GetCategoryDto> GetCategoryById(int id);
 		Task<string> UpdateCategoryAsync(UpdateCategoryDto updateDto);

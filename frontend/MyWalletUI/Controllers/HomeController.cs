@@ -8,33 +8,24 @@ namespace MyWalletUI.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
-		private readonly ICategoryService _categoryService;
 		
+		private readonly IIncomeService _incomeService;
+		private readonly IExpenseService _expenseService;
 
-		public HomeController(ILogger<HomeController> logger, IMapper mapper, ICategoryService categoryService)
+        public HomeController(IExpenseService expenseService, IIncomeService incomeService)
+        {
+            _expenseService = expenseService;
+            _incomeService = incomeService;
+        }
+
+
+        public async Task<IActionResult> Index()
 		{
-			_logger = logger;
 			
-			_categoryService = categoryService;
-		}
-
-		public async Task<IActionResult> Index()
-		{
-			var categories = await _categoryService.GetAllCategories();
 			 
-			return View(categories);
-		}
-
-		public IActionResult Privacy()
-		{
 			return View();
 		}
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
+		
 	}
 }
