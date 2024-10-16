@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using BusinessLayer.Extensions;
 using BusinessLayer.Services.Abstractions;
 using DtoLayer.Dtos.CustomerDtos;
+using EntityLayer.Entities;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyWalletUI.Controllers
@@ -9,11 +12,12 @@ namespace MyWalletUI.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
-
-        public CustomerController(ICustomerService customerService, IMapper mapper)
+        private readonly IValidator<Customer> _validator;
+        public CustomerController(ICustomerService customerService, IMapper mapper, IValidator<Customer> validator)
         {
             _customerService = customerService;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public async Task<IActionResult> Index()
@@ -32,9 +36,16 @@ namespace MyWalletUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateCustomerDto createCustomerDto)
         {
-            await _customerService.CreateCustomerAsync(createCustomerDto);
+            var map =  _mapper.Map<Customer>(createCustomerDto);
+            var result = await _validator.ValidateAsync(map);
+            if (result.IsValid)
+            {
+                await _customerService.CreateCustomerAsync(createCustomerDto);
 
-            return RedirectToAction("Index", "Customer");
+                return RedirectToAction("Index", "Customer");
+            }
+            result.AddModelState(this.ModelState);
+            return View(createCustomerDto);
         }
 
         [HttpGet]
@@ -48,8 +59,15 @@ namespace MyWalletUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateCustomerDto updateCustomerDto)
         {
-            await _customerService.UpdateCustomerAsync(updateCustomerDto);
-            return RedirectToAction("Index", "Customer");
+            var map = _mapper.Map<Customer>(updateCustomerDto);
+            var result = await _validator.ValidateAsync(map);
+            if (result.IsValid)
+            {
+                await _customerService.UpdateCustomerAsync(updateCustomerDto);
+                return RedirectToAction("Index", "Customer");
+            }
+            result.AddModelState(this.ModelState);
+            return View(updateCustomerDto);
         }
 
 

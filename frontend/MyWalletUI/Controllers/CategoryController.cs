@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using BusinessLayer.Extensions;
 using BusinessLayer.Services.Abstractions;
 using DtoLayer.Dtos.CategoryDtos;
+using EntityLayer.Entities;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -11,11 +14,13 @@ namespace MyWalletUI.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
+        private readonly IValidator<Category> _validator;
 
-        public CategoryController(ICategoryService categoryService, IMapper mapper)
+        public CategoryController(ICategoryService categoryService, IMapper mapper, IValidator<Category> validator)
         {
             _categoryService = categoryService;
             _mapper = mapper;
+            _validator = validator;
         }
 
         [HttpGet]
@@ -36,9 +41,22 @@ namespace MyWalletUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateCategoryDto updateCategoryDto)
         {
-            var category = await _categoryService.UpdateCategoryAsync(updateCategoryDto);
             
-            return RedirectToAction("Index", "Category");
+            var map = _mapper.Map<Category>(updateCategoryDto);
+            var result = await _validator.ValidateAsync(map);
+
+            if (result.IsValid)
+            {
+                await _categoryService.UpdateCategoryAsync(updateCategoryDto);
+                return RedirectToAction("Index", "Category");
+            }
+            else
+            {
+                result.AddModelState(this.ModelState);
+                return View(updateCategoryDto);
+            }
+            
+
         }
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -49,9 +67,16 @@ namespace MyWalletUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateCategoryDto createCategoryDto)
         {
-            await _categoryService.CreateCategoryAsync(createCategoryDto);
+            var map = _mapper.Map<Category>(createCategoryDto);
+            var result = await _validator.ValidateAsync(map);
+            if(result.IsValid)
+            {
+                await _categoryService.CreateCategoryAsync(createCategoryDto);
 
-            return RedirectToAction("Index", "Category");
+                return RedirectToAction("Index", "Category");
+            }
+            result.AddModelState(this.ModelState);
+            return View(createCategoryDto);
         }
 
         public async Task<IActionResult> Delete(int id)

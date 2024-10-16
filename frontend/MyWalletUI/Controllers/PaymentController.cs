@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
+using BusinessLayer.Extensions;
 using BusinessLayer.Services.Abstractions;
+using DtoLayer.Dtos.ExpenseDtos;
+using DtoLayer.Dtos.IncomeDtos;
 using DtoLayer.Dtos.PaymentDtos;
+using EntityLayer.Entities;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyWalletUI.Controllers
@@ -10,12 +15,13 @@ namespace MyWalletUI.Controllers
         private readonly IPaymentService _paymentService;
         private readonly IMapper _mapper;
         private readonly ICustomerService _customerService;
-
-        public PaymentController(IPaymentService paymentService, IMapper mapper, ICustomerService customerService)
+        private readonly IValidator<Payment> _validator;
+        public PaymentController(IPaymentService paymentService, IMapper mapper, ICustomerService customerService, IValidator<Payment> validator)
         {
             _paymentService = paymentService;
             _mapper = mapper;
             _customerService = customerService;
+            _validator = validator;
         }
 
         [HttpGet]
@@ -40,16 +46,24 @@ namespace MyWalletUI.Controllers
         public async Task<IActionResult> Update(UpdatePaymentDto updatePaymentDto)
         {
             updatePaymentDto.Status = true;
-            
-            await _paymentService.UpdatePaymentAsync(updatePaymentDto);
-            return RedirectToAction("Index", "Payment");
+            var map = _mapper.Map<Payment>(updatePaymentDto);
+            var result = await _validator.ValidateAsync(map);
+            if (result.IsValid)
+            {
+                await _paymentService.UpdatePaymentAsync(updatePaymentDto);
+                return RedirectToAction("Index", "Payment");
+            }
+            var categories = await _customerService.GetAllCustomers();
+            updatePaymentDto.Customers = categories;
+            result.AddModelState(this.ModelState);
+            return View(updatePaymentDto);
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             var customers = await _customerService.GetAllCustomers();
-            
+
             return View(new CreatePaymentDto { Customers = customers });
         }
 
@@ -57,9 +71,18 @@ namespace MyWalletUI.Controllers
         public async Task<IActionResult> Create(CreatePaymentDto createPaymentDto)
         {
             createPaymentDto.Status = true;
-            await _paymentService.CreatePaymentAsync(createPaymentDto);
+            var map = _mapper.Map<Payment>(createPaymentDto);
+            var result = await _validator.ValidateAsync(map);
+            if (result.IsValid)
+            {
+                await _paymentService.CreatePaymentAsync(createPaymentDto);
 
-            return RedirectToAction("Index", "Payment");
+                return RedirectToAction("Index", "Payment");
+            }
+            var categories = await _customerService.GetAllCustomers();
+            createPaymentDto.Customers = categories;
+            result.AddModelState(this.ModelState);
+            return View(createPaymentDto);
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -69,5 +92,7 @@ namespace MyWalletUI.Controllers
             return RedirectToAction("Index", "Payment");
 
         }
+
+
     }
 }
