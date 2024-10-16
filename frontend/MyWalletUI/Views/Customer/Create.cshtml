@@ -8,31 +8,37 @@
     <div class="card-body">
         <h4 class="card-title">Müşteri Ekle</h4>
         <hr>
+        <div asp-validation-summary="ModelOnly"></div>
         <form class="form-group" asp-controller="Customer" asp-action="Create" method="post">
 
             <p>Müşteri Adı</p>
+            <span asp-validation-for="Name" class="text-danger"></span>
             <div class="form-group">
                 <div class="input-group">
-
+                    
                     <input asp-for="Name" type="text" class="form-control" placeholder="Müşteri Adı" aria-describedby="basic-addon1" required>
                 </div>
             </div>
             <p>Müşteri Soyadı</p>
+            <span asp-validation-for="LastName" class="text-danger"></span>
             <div class="form-group">
                 <div class="input-group">
-
+                    
                     <input asp-for="LastName" type="text" class="form-control" placeholder="Müşteri Soydı" aria-describedby="basic-addon1" required>
                 </div>
             </div>
             <p>Müşteri Telefon Numarası</p>
+            <span asp-validation-for="Phone" class="text-danger"></span>
             <div class="form-group">
                 <div class="input-group">
-
+                    
                     <input asp-for="Phone" type="text" class="form-control" placeholder="Müşteri Telefon Numarası" aria-describedby="basic-addon1" required>
                 </div>
             </div>
             <p>Müşteri Durumu</p>
+            <span asp-validation-for="Status" class="text-danger"></span>
             <div class="form-group">
+                
                 <select asp-for="Status" id="customerstatus" class="form-control" required>
                     <option value='true'>Aktif</option>
                     <option value='false'>Pasif</option>

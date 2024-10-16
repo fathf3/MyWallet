@@ -8,17 +8,22 @@
     <div class="card-body">
         <h4 class="card-title">Kategori Güncelle</h4>
         <hr>
+        <div asp-validation-summary="ModelOnly"></div>
         <form class="form-group" asp-controller="Category" asp-action="Create" method="post">
-            
+           
+
             <p>Kategori Adı</p>
             <div class="form-group">
+                <span asp-validation-for="Name" class="text-danger"></span>
                 <div class="input-group">
 
                     <input asp-for="Name" type="text" class="form-control" placeholder="Kategori Adı" aria-describedby="basic-addon1">
+
                 </div>
             </div>
             <p>Kategori Tipi</p>
             <div class="form-group">
+                <span asp-validation-for="CategoryType"></span>
                 <select asp-for="CategoryType" id="categorystatus" class="form-control">
                     <option value='true'>Gelir</option>
                     <option value='false'>Gider</option>
@@ -27,6 +32,7 @@
             </div>
             <p>Kategori Durumu</p>
             <div class="form-group">
+                <span asp-validation-for="Status"></span>
                 <select asp-for="Status" id="categorystatus" class="form-control">
                     <option value='true'>Aktif</option>
                     <option value='false'>Pasif</option>

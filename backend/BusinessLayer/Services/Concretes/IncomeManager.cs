@@ -51,7 +51,7 @@ namespace BusinessLayer.Services.Concretes
         {
             var incomes = await _unitOfWork
                 .GetRepository<Income>()
-                .GetAllAsync(x => x.Status, x => x.Category);
+                .GetAllAsync(x => x.Status || !x.Status, x => x.Category);
             var map = _mapper.Map<List<ResultIncomeDto>>(incomes);
             return map;
         }

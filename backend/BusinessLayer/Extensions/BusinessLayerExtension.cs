@@ -1,7 +1,11 @@
-﻿using BusinessLayer.Services.Abstractions;
+﻿using BusinessLayer.FluentValidations;
+using BusinessLayer.Services.Abstractions;
 using BusinessLayer.Services.Concretes;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using System.Reflection;
 
 namespace BusinessLayer.Extensions
@@ -18,8 +22,16 @@ namespace BusinessLayer.Extensions
 			services.AddScoped <IExpenseService, ExpenseManager>();
 			services.AddScoped <IPaymentService, PaymentManager>();
 			services.AddScoped <ICustomerService, CustomerManager>();
+			;
 
-			return services;
+            services.AddControllersWithViews().AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssemblyContaining<CategoryValidator>();
+                opt.DisableDataAnnotationsValidation = true;
+                opt.ValidatorOptions.LanguageManager.Culture = new CultureInfo("tr");
+            });
+
+            return services;
 		}
 	}
 }
