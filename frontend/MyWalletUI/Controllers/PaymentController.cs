@@ -7,6 +7,7 @@ using DtoLayer.Dtos.PaymentDtos;
 using EntityLayer.Entities;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using MyWalletUI.Helper;
 
 namespace MyWalletUI.Controllers
 {
@@ -36,8 +37,9 @@ namespace MyWalletUI.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var payment = await _paymentService.GetPaymentById(id);
-            var customers = await _customerService.GetAllCustomers();
-
+            var customers = await _customerService.GetAllActiveCustomersForPayment();
+            var monthYearList = TimeHelper.GetMonthYearList();
+            ViewBag.MonthYearList = monthYearList;
             var map = _mapper.Map<UpdatePaymentDto>(payment);
             map.Customers = customers;
             return View(map);
@@ -53,8 +55,8 @@ namespace MyWalletUI.Controllers
                 await _paymentService.UpdatePaymentAsync(updatePaymentDto);
                 return RedirectToAction("Index", "Payment");
             }
-            var categories = await _customerService.GetAllCustomers();
-            updatePaymentDto.Customers = categories;
+            var customers = await _customerService.GetAllActiveCustomersForPayment();
+            updatePaymentDto.Customers = customers;
             result.AddModelState(this.ModelState);
             return View(updatePaymentDto);
         }
@@ -62,8 +64,9 @@ namespace MyWalletUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var customers = await _customerService.GetAllCustomers();
-
+            var customers = await _customerService.GetAllActiveCustomersForPayment();
+            var monthYearList = TimeHelper.GetMonthYearList();
+            ViewBag.MonthYearList = monthYearList;
             return View(new CreatePaymentDto { Customers = customers });
         }
 
@@ -79,8 +82,8 @@ namespace MyWalletUI.Controllers
 
                 return RedirectToAction("Index", "Payment");
             }
-            var categories = await _customerService.GetAllCustomers();
-            createPaymentDto.Customers = categories;
+            var customers = await _customerService.GetAllActiveCustomersForPayment();
+            createPaymentDto.Customers = customers;
             result.AddModelState(this.ModelState);
             return View(createPaymentDto);
         }

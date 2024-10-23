@@ -16,11 +16,12 @@ namespace BusinessLayer.Services.Abstractions
         Task<GetExpenseDto> GetExpenseById(int id);
         Task<string> UpdateExpenseAsync(UpdateExpenseDto updateDto);
         Task<string> DeleteExpenseAsync(int id);
-        Task<string> ActiveExpenseAsync(int id);
         Task<decimal> GetTotalExpense();
         Task<decimal> GetTotalExpenseThisMonth();
         Task<decimal> GetTotalExpenseDay();
-        Task<decimal> GetExpenseDifLastDay();
-        Task<decimal> GetExpenseDifWithLastMonth();
+        Task<decimal> GetTotalExpenseThisWeek();
+        
+
+
     }
 }

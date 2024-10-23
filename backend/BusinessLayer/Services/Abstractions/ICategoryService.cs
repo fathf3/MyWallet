@@ -18,6 +18,7 @@ namespace BusinessLayer.Services.Abstractions
 		Task<string> UpdateCategoryAsync(UpdateCategoryDto updateDto);
 		Task<string> DeleteCategoryAsync(int id);
 		Task<string> ActiveCategoryAsync(int id);
+		Task<string> PassiveCategoryAsync(int id);
 		
 
 

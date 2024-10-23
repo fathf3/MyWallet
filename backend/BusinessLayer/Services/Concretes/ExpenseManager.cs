@@ -27,8 +27,7 @@ namespace BusinessLayer.Services.Concretes
         public async Task<string> DeleteExpenseAsync(int id)
         {
             var expense = await _unitOfWork.GetRepository<Expense>().GetByIdAsync(id);
-            expense.Status = false;
-            await _unitOfWork.GetRepository<Expense>().UpdateAsync(expense);
+            await _unitOfWork.GetRepository<Expense>().DeleteAsync(expense);
             await _unitOfWork.SaveAsync();
             return expense.Id.ToString();
         }
@@ -39,14 +38,7 @@ namespace BusinessLayer.Services.Concretes
             var map = _mapper.Map<List<ResultExpenseDto>>(expenses);
             return map;
         }
-        public async Task<string> ActiveExpenseAsync(int id)
-        {
-            var expense = await _unitOfWork.GetRepository<Expense>().GetByIdAsync(id);
-            expense.Status = true;
-            await _unitOfWork.GetRepository<Expense>().UpdateAsync(expense);
-            await _unitOfWork.SaveAsync();
-            return expense.Id.ToString();
-        }
+       
         public async Task<List<ResultExpenseDto>> GetAllExpensesWithCategory()
         {
             var expenses = await _unitOfWork
@@ -87,27 +79,6 @@ namespace BusinessLayer.Services.Concretes
             return sumExpense;
         }
 
-        public async Task<decimal> GetExpenseDifWithLastMonth()
-        {
-
-            var sumExpense = await _unitOfWork
-                .GetRepository<Expense>()
-                .SumAsync(x => x.Status && (x.ExpenseDate.Month == DateTime.Now.Month) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
-            var sumExpense2 = await _unitOfWork
-               .GetRepository<Expense>()
-               .SumAsync(x => x.Status && (x.ExpenseDate.Month == DateTime.Now.Month - 1) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
-            if (sumExpense == 0 || sumExpense2 == 0)
-            {
-                return 100;
-            }
-            else
-            {
-                decimal result = ((sumExpense - sumExpense2) / sumExpense) * 100;
-                return result;
-            }
-
-        }
-
         public async Task<decimal> GetTotalExpenseDay()
         {
             var sumExpense = await _unitOfWork
@@ -116,23 +87,16 @@ namespace BusinessLayer.Services.Concretes
             return sumExpense;
         }
 
-        public async Task<decimal> GetExpenseDifLastDay()
+        public async Task<decimal> GetTotalExpenseThisWeek()
         {
-            var sumExpense = await _unitOfWork
-                 .GetRepository<Expense>()
-                 .SumAsync(x => x.Status && (x.ExpenseDate.Day == DateTime.Now.Day) && (x.ExpenseDate.Month == DateTime.Now.Month) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
-            var sumExpense2 = await _unitOfWork
-               .GetRepository<Expense>()
-               .SumAsync(x => x.Status && (x.ExpenseDate.Day == DateTime.Now.Day - 1) && (x.ExpenseDate.Month == DateTime.Now.Month) && (x.ExpenseDate.Year == DateTime.Now.Year), y => y.Cost);
-            if (sumExpense == 0 || sumExpense2 == 0)
-            {
-                return 100;
-            }
-            else
-            {
-                decimal result = ((sumExpense - sumExpense2) / sumExpense) * 100;
-                return result;
-            }
+            DateTime today = DateTime.Now.Date;
+            DateTime lastWeek = today.AddDays(-7);
+            var sumIncome = await _unitOfWork
+              .GetRepository<Expense>()
+              .SumAsync(x => x.Status && (x.ExpenseDate >= lastWeek && x.ExpenseDate <= today), y => y.Cost);
+            return sumIncome;
         }
+
+       
     }
 }

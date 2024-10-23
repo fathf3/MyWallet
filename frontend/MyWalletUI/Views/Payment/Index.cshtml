@@ -22,6 +22,7 @@
                             <th>#</th>
                             <th>Müşteri</th>
                             <th>Ücret</th>
+                            <th>Ödeme Dönemi</th>
                             <th>Ödeme Tarihi</th>
                             <th>Aktif</th> 
                             <th>Sil</th>
@@ -37,6 +38,7 @@
                                 <td>@count</td>
                                 <td>@payment.Customer.Name @payment.Customer.LastName </td>
                                 <td>@payment.Amount</td>
+                                <td>@payment.PaymentPeriod.ToString("MMMM yyyy")</td>
                                 <td>@payment.PaymentDate.ToShortDateString()</td>
                                 <td>
                                     @if (payment.IsPaid)
@@ -56,7 +58,7 @@
                                     <label class="@badgeInfo">@textInfo</label>
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-danger btn-group-lg" href="/Payment/Delete/@payment.Id">
+                                    <a onclick="deleteItem(event)"  class="btn btn-outline-danger btn-group-lg" href="/Payment/Delete/@payment.Id">
                                         <i class="mdi mdi-close-circle-outline"></i>
                                     </a>
                                 </td>
@@ -75,3 +77,8 @@
     </div>
 </div>
 
+<script>
+    function deleteItem(e) {
+        if (!confirm(`Silmek istediğinize emin misiniz?`)) e.preventDefault();
+    }
+</script>

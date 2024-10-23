@@ -12,9 +12,10 @@ namespace DtoLayer.Dtos.PaymentDtos
 	{
 		public int CustomerId { get; set; }
 		public DateTime PaymentDate { get; set; }
-		public decimal Amount { get; set; }
+        public DateTime PaymentPeriod { get; set; }
+        public decimal Amount { get; set; }
 		public bool IsPaid { get; set; }
         public bool Status { get; set; }
-        public IList<ResultCustomerDto> Customers { get; set; }
+        public IList<ResultCustomerForPaymentDto> Customers { get; set; }
     }
 }

@@ -6,7 +6,7 @@
 
 <div class="card">
 <div class="card-body">
-    <h4 class="card-title">Ödeme Güncelle</h4>
+    <h4 class="card-title">Yeni Ödeme Gir</h4>
         <hr>
         <div asp-validation-summary="ModelOnly"></div>
     <form class="form-group" asp-controller="Payment" asp-action="Create" method="post">
@@ -21,7 +21,8 @@
         <p>Müşteri</p>
             
         <div class="form-group">
-            <select id="customerList" class="form-control" asp-for="CustomerId" asp-items="@(new SelectList(Model.Customers,"Id","Name"))" required></select>
+            <select id="customerList" class="form-control" asp-for="CustomerId" 
+            asp-items="@(new SelectList(Model.Customers,"Id","FullName"))" required></select>
         </div>
         <p>Ödeme Durumu</p>
             <span asp-validation-for="IsPaid" class="text-danger"></span>
@@ -31,12 +32,22 @@
                 <option value='false'>Ödeme Bekliyor</option>
 
             </select>
-        </div>
+        </div
+        <p>Ödeme Dönemi Seçin</p>
+          <div class="form-group">
+
+                <select asp-for="PaymentPeriod" id="monthYear" name="PaymentPeriod" class="form-control">
+                    @foreach (var item in ViewBag.MonthYearList)
+                    {
+                        <option value="@item">@item.ToString("MMMM yyyy")</option>
+                    }
+                </select>
+            </div>
 
             <span asp-validation-for="PaymentDate" class="text-danger"></span>
         <div class="form-group">
 
-            <input asp-for="PaymentDate" type="date" value="@DateTime.Now.Date.ToShortDateString()" required />
+            <input  asp-for="PaymentDate" type="date" value="@DateTime.Now.Date.ToShortDateString()" required />
         </div>
         <div class="form-group text-center align-items-center">
             <button class="btn btn-outline-success  ">Kaydet</btn>

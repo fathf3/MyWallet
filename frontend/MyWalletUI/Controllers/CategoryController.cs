@@ -81,15 +81,19 @@ namespace MyWalletUI.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            
             await _categoryService.DeleteCategoryAsync(id);
             return RedirectToAction("Index", "Category");
 
         }
         public async Task<IActionResult> Active(int id)
         {
-
             await _categoryService.ActiveCategoryAsync(id);
+            return RedirectToAction("Index", "Category");
+
+        }
+        public async Task<IActionResult> Passive(int id)
+        {
+            await _categoryService.PassiveCategoryAsync(id);
             return RedirectToAction("Index", "Category");
 
         }

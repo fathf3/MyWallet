@@ -73,10 +73,18 @@ namespace MyWalletUI.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-
             await _customerService.DeleteCustomerAsync(id);
             return RedirectToAction("Index", "Customer");
-
+        }
+        public async Task<IActionResult> Active(int id)
+        {
+            await _customerService.ActiveCustomerAsync(id);
+            return RedirectToAction("Index", "Customer");
+        }
+        public async Task<IActionResult> Passive(int id)
+        {
+            await _customerService.PassiveCustomerAsync(id);
+            return RedirectToAction("Index", "Customer");
         }
     }
 }

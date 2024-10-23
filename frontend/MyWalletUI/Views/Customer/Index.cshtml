@@ -24,6 +24,7 @@
                             <th>Müşteri Durumu</th>
                             <th>Aktif</th>
                             <th>Pasif</th>
+                            <th>Sil</th>
                             <th>Güncelle</th>
 
                         </tr>
@@ -54,14 +55,19 @@
                                     <label class="@badgeInfo">@textInfo</label>
                                 </td>
                                
-                                <td>
+                               <td>
                                     <a class="btn btn-outline-info btn-group-lg" href="/Customer/Active/@customer.Id">
                                         <i class="mdi mdi-plus-circle"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-primary btn-group-lg" href="/Customer/Delete/@customer.Id">
+                                    <a class="btn btn-outline-info btn-group-lg" href="/Customer/Passive/@customer.Id">
                                         <i class="mdi mdi-minus"></i>
+                                    </a>
+                                </td>
+                               <td>
+                                    <a onclick="deleteItem(event)" class="btn btn-outline-danger btn-group-lg" href="/Customer/Delete/@customer.Id">
+                                        <i class="mdi mdi-close"></i>
                                     </a>
                                 </td>
                                 <td>
@@ -82,4 +88,9 @@
         </div>
     </div>
 </div>
+<script>
+    function deleteItem(e) {
+        if (!confirm(`Silmek istediğinize emin misiniz?`)) e.preventDefault();
+    }
+</script>
 

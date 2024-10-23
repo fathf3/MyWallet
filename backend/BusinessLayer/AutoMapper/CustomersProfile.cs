@@ -18,6 +18,7 @@ namespace BusinessLayer.AutoMapper
 			CreateMap<Customer, ResultCustomerDto>().ReverseMap();
 			CreateMap<Customer, GetCustomerDto>().ReverseMap();
 			CreateMap<UpdateCustomerDto, GetCustomerDto>().ReverseMap();
+			CreateMap<Customer, ResultCustomerForPaymentDto>().ReverseMap();
 		}
 	}
 }
