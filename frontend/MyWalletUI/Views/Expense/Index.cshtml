@@ -22,8 +22,9 @@
                             <th>#</th>
                             <th>Miktar</th>
                             <th>Kategori</th>
+                            <th>Açıklama</th>
                             <th>Tarih</th>
-                            @* <th>Aktif</th> *@
+                            
                             <th>Sil</th>
                             <th>Güncelle</th>
 
@@ -39,14 +40,20 @@
                                 <td>
                                     <label class="badge badge-success">@expense.Category.Name</label>
                                 </td>
+                                @if (expense.Description.Length > 30)
+                                {
+                                    <td>
+                                        @expense.Description.Substring(0, 30) ...
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@expense.Description</td>
+                                }
                                 <td>@expense.ExpenseDate.ToShortDateString()</td>
-                                @*      <td>
-                            <a class="btn btn-outline-info btn-group-lg" href="/Expense/Active/@expense.Id">
-                            <i class="mdi mdi-plus-circle"></i>
-                            </a>
-                            </td> *@
+                              
                                 <td>
-                                    <a class="btn btn-outline-danger btn-group-lg" href="/Expense/Delete/@expense.Id">
+                                    <a onclick="deleteItem(event)" class="btn btn-outline-danger btn-group-lg" href="/Expense/Delete/@expense.Id">
                                         <i class="mdi mdi-close-circle-outline"></i>
                                     </a>
                                 </td>
@@ -68,3 +75,8 @@
         </div>
     </div>
 </div>
+<script>
+    function deleteItem(e) {
+        if (!confirm(`Silmek istediğinize emin misiniz?`)) e.preventDefault();
+    }
+</script>

@@ -22,8 +22,8 @@
                             <th>#</th>
                             <th>Miktar</th>
                             <th>Kategori</th>
+                            <th>Açıklama</th>
                             <th>Tarih</th>
-                            @* <th>Aktif</th> *@
                             <th>Sil</th>
                             <th>Güncelle</th>
 
@@ -39,6 +39,17 @@
                                 <td>
                                     <label class="badge badge-success">@income.Category.Name</label>
                                 </td>
+                                @if (income.Description.Length > 30)
+                                    {
+                                        <td>
+                                            @income.Description.Substring(0,30) ...
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@income.Description</td>
+                                }
+
                                 <td>@income.IncomeDate.ToShortDateString()</td>
                            @*      <td>
                                     <a class="btn btn-outline-info btn-group-lg" href="/Income/Active/@income.Id">
@@ -46,7 +57,8 @@
                                     </a>
                                 </td> *@
                                 <td>
-                                    <a class="btn btn-outline-danger btn-group-lg" href="/Income/Delete/@income.Id">
+                                    <a onclick="deleteItem(event)" id="deleteItem" class="btn btn-outline-danger btn-group-lg " href="/Income/Delete/@income.Id">
+
                                         <i class="mdi mdi-close-circle-outline"></i>
                                     </a>
                                 </td>
@@ -59,12 +71,16 @@
                             </tr>
                         }
 
-
-
-
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    function deleteItem(e) {
+        if (!confirm(`Silmek istediğinize emin misiniz?`)) e.preventDefault();
+    }
+</script>

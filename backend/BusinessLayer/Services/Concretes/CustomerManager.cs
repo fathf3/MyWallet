@@ -27,8 +27,7 @@ namespace BusinessLayer.Services.Concretes
         public async Task<string> DeleteCustomerAsync(int id)
         {
             var customer = await _unitOfWork.GetRepository<Customer>().GetByIdAsync(id);
-            customer.Status = false;
-            await _unitOfWork.GetRepository<Customer>().UpdateAsync(customer);
+            await _unitOfWork.GetRepository<Customer>().DeleteAsync(customer);
             await _unitOfWork.SaveAsync();
             return customer.Id.ToString();
         }
@@ -64,5 +63,20 @@ namespace BusinessLayer.Services.Concretes
             return updateDto.Id.ToString();
         }
 
+        public async Task<string> PassiveCustomerAsync(int id)
+        {
+            var customer = await _unitOfWork.GetRepository<Customer>().GetByIdAsync(id);
+            customer.Status = false;
+            await _unitOfWork.GetRepository<Customer>().UpdateAsync(customer);
+            await _unitOfWork.SaveAsync();
+            return customer.Id.ToString();
+        }
+
+        public async Task<List<ResultCustomerForPaymentDto>> GetAllActiveCustomersForPayment()
+        {
+            var customers = await _unitOfWork.GetRepository<Customer>().GetAllAsync(x => x.Status);
+            var map = _mapper.Map<List<ResultCustomerForPaymentDto>>(customers);
+            return map;
+        }
     }
 }

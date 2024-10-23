@@ -26,9 +26,8 @@ namespace BusinessLayer.Services.Concretes
 
         public async Task<string> DeleteIncomeAsync(int id)
         {
-            var income = await _unitOfWork.GetRepository<Income>().GetByIdAsync(id);
-            income.Status = false;
-            await _unitOfWork.GetRepository<Income>().UpdateAsync(income);
+             var income = await _unitOfWork.GetRepository<Income>().GetByIdAsync(id);
+            await _unitOfWork.GetRepository<Income>().DeleteAsync(income);
             await _unitOfWork.SaveAsync();
             return income.Id.ToString();
         }
@@ -96,27 +95,6 @@ namespace BusinessLayer.Services.Concretes
             return sumIncome;
         }
 
-        public async Task<decimal> GetIncomeDifWithLastMonth()
-        {
-
-            var sumIncome = await _unitOfWork
-                .GetRepository<Income>()
-                .SumAsync(x => x.Status && (x.IncomeDate.Month == DateTime.Now.Month) && (x.IncomeDate.Year == DateTime.Now.Year), y => y.Cost);
-            var sumIncome2 = await _unitOfWork
-               .GetRepository<Income>()
-               .SumAsync(x => x.Status && (x.IncomeDate.Month == DateTime.Now.Month - 1) && (x.IncomeDate.Year == DateTime.Now.Year), y => y.Cost);
-            if (sumIncome == 0 || sumIncome2 == 0)
-            {
-                return 100;
-            }
-            else
-            {
-                decimal result = ((sumIncome - sumIncome2) / sumIncome) * 100;
-                return result;
-            }
-
-        }
-
         public async Task<decimal> GetTotalIncomeDay()
         {
             var sumIncome = await _unitOfWork
@@ -125,23 +103,15 @@ namespace BusinessLayer.Services.Concretes
             return sumIncome;
         }
 
-        public async Task<decimal> GetIncomeDifLastDay()
+
+        public async Task<decimal> GetTotalIncomeThisWeek()
         {
+            DateTime today = DateTime.Now.Date;
+            DateTime lastWeek = today.AddDays(-7);
             var sumIncome = await _unitOfWork
-                 .GetRepository<Income>()
-                 .SumAsync(x => x.Status && (x.IncomeDate.Day == DateTime.Now.Day) && (x.IncomeDate.Month == DateTime.Now.Month) && (x.IncomeDate.Year == DateTime.Now.Year), y => y.Cost);
-            var sumIncome2 = await _unitOfWork
-               .GetRepository<Income>()
-               .SumAsync(x => x.Status && (x.IncomeDate.Day == DateTime.Now.Day-1) && (x.IncomeDate.Month == DateTime.Now.Month) && (x.IncomeDate.Year == DateTime.Now.Year), y => y.Cost);
-            if (sumIncome == 0 || sumIncome2 == 0)
-            {
-                return 100;
-            }
-            else
-            {
-                decimal result = ((sumIncome - sumIncome2) / sumIncome) * 100;
-                return result;
-            }
+              .GetRepository<Income>()
+              .SumAsync(x => x.Status && (x.IncomeDate >= lastWeek && x.IncomeDate <= today), y => y.Cost);
+            return sumIncome;
         }
     }
 }

@@ -21,8 +21,7 @@ namespace BusinessLayer.Services.Abstractions
 		Task<decimal> GetTotalIncome();
 		Task<decimal> GetTotalIncomeThisMonth();
 		Task<decimal> GetTotalIncomeDay();
-		Task<decimal> GetIncomeDifLastDay();
-		Task<decimal> GetIncomeDifWithLastMonth();
+		Task<decimal> GetTotalIncomeThisWeek();
 
     }
 }

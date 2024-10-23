@@ -29,22 +29,8 @@ namespace BusinessLayer.Services.Concretes
 			await _unitOfWork.SaveAsync();
 		}
 
-		public async Task<string> DeleteCategoryAsync(int id)
-		{
-			var category = await _unitOfWork.GetRepository<Category>().GetByIdAsync(id);
-			category.Status = false;
-			await _unitOfWork.GetRepository<Category>().UpdateAsync(category);
-			await _unitOfWork.SaveAsync();
-			return category.Name;
-		}
-        public async Task<string> ActiveCategoryAsync(int id)
-        {
-            var category = await _unitOfWork.GetRepository<Category>().GetByIdAsync(id);
-            category.Status = true;
-            await _unitOfWork.GetRepository<Category>().UpdateAsync(category);
-            await _unitOfWork.SaveAsync();
-            return category.Name;
-        }
+		
+      
         public async Task<List<ResultCategoryDto>> GetAllCategories()
 		{
 			var catagories = await _unitOfWork.GetRepository<Category>().GetAllAsync();
@@ -86,6 +72,30 @@ namespace BusinessLayer.Services.Concretes
             var catagories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => x.Status && x.CategoryType == false);
             var map = _mapper.Map<List<ResultCategoryDto>>(catagories);
             return map;
+        }
+        public async Task<string> DeleteCategoryAsync(int id)
+        {
+            var category = await _unitOfWork.GetRepository<Category>().GetByIdAsync(id);
+            await _unitOfWork.GetRepository<Category>().DeleteAsync(category);
+            await _unitOfWork.SaveAsync();
+            return category.Name;
+        }
+        public async Task<string> ActiveCategoryAsync(int id)
+        {
+            var category = await _unitOfWork.GetRepository<Category>().GetByIdAsync(id);
+            category.Status = true;
+            await _unitOfWork.GetRepository<Category>().UpdateAsync(category);
+            await _unitOfWork.SaveAsync();
+            return category.Name;
+        }
+
+        public async Task<string> PassiveCategoryAsync(int id)
+        {
+            var category = await _unitOfWork.GetRepository<Category>().GetByIdAsync(id);
+            category.Status = false;
+            await _unitOfWork.GetRepository<Category>().UpdateAsync(category);
+            await _unitOfWork.SaveAsync();
+            return category.Name;
         }
     }
 }

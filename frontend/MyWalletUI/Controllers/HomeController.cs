@@ -1,11 +1,13 @@
 using AutoMapper;
 using BusinessLayer.Services.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyWalletUI.Models;
 using System.Diagnostics;
 
 namespace MyWalletUI.Controllers
 {
+	[Authorize]
 	public class HomeController : Controller
 	{
 		
@@ -27,22 +29,56 @@ namespace MyWalletUI.Controllers
 			ViewBag.totalBalance = ViewBag.totalIncome- ViewBag.totalExpense;
 
 			// Günlük Gelir Hesaplama
-			ViewBag.incomeDay = await _incomeService.GetTotalIncomeDay();
-			ViewBag.incomeDayDif = await _incomeService.GetIncomeDifLastDay();
+			var incomeDay = await _incomeService.GetTotalIncomeDay();
+			var expenseDay = await _expenseService.GetTotalExpenseDay();
+            ViewBag.incomeDay = incomeDay - expenseDay;
+			if(incomeDay < 1 || expenseDay < 1) 
+			{
+                ViewBag.incomeDayDif = 100;
+			}
+			else
+			{
+				ViewBag.incomeDayDif = ((incomeDay - expenseDay) / incomeDay) * 100; ;
+
+            }
+            
+			 
 
             // Aylık Gelir Hesaplama
-            ViewBag.incomeThisMonth = await _incomeService.GetTotalIncomeThisMonth();
-			ViewBag.incomeThisMonthDif = await _incomeService.GetIncomeDifWithLastMonth();
+			var incomeThisMonth = await _incomeService.GetTotalIncomeThisMonth();
+			var expenseThisMonth = await _expenseService.GetTotalExpenseThisMonth();
+            
+            ViewBag.incomeThisMonth = incomeThisMonth - expenseThisMonth;
 
-            // Günlük Gider Hesaplama
-            ViewBag.expenseDay = await _expenseService.GetTotalExpenseDay();
-            ViewBag.expenseDayDif = await _expenseService.GetExpenseDifLastDay();
+            if (incomeThisMonth < 1 || expenseThisMonth < 1)
+            {
+                ViewBag.incomeThisMonthDif = 100;
+            }
+            else
+            {
+                ViewBag.incomeThisMonthDif = ((incomeThisMonth - expenseThisMonth) / incomeThisMonth) * 100; ;
+
+            }
+
+
 
             // Aylık Gider Hesaplama
-            ViewBag.expenseThisMonth = await _expenseService.GetTotalExpenseThisMonth();
-            ViewBag.expenseThisMonthDif = await _expenseService.GetExpenseDifWithLastMonth();
+            var incomeThisWeek = await _incomeService.GetTotalIncomeThisWeek();
+            var expenseThisWeek = await _expenseService.GetTotalExpenseThisWeek();
+
+            ViewBag.incomeThisWeek = incomeThisWeek - expenseThisWeek;
+
+            if (incomeThisWeek < 1 || expenseThisWeek < 1)
+            {
+                ViewBag.incomeThisWeekDif = 100;
+            }
+            else
+            {
+                ViewBag.incomeThisWeekDif = ((incomeThisWeek - expenseThisWeek) / incomeThisWeek) * 100; ;
+
+            }
             return View();
-		}
+        }
 
 		
 	}
