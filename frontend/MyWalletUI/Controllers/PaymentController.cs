@@ -37,7 +37,7 @@ namespace MyWalletUI.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var payment = await _paymentService.GetPaymentById(id);
-            var customers = await _customerService.GetAllActiveCustomersForPayment();
+            var customers = await _customerService.GetAllActiveCustomers();
             var monthYearList = TimeHelper.GetMonthYearList();
             ViewBag.MonthYearList = monthYearList;
             var map = _mapper.Map<UpdatePaymentDto>(payment);
@@ -55,7 +55,7 @@ namespace MyWalletUI.Controllers
                 await _paymentService.UpdatePaymentAsync(updatePaymentDto);
                 return RedirectToAction("Index", "Payment");
             }
-            var customers = await _customerService.GetAllActiveCustomersForPayment();
+            var customers = await _customerService.GetAllActiveCustomers();
             updatePaymentDto.Customers = customers;
             result.AddModelState(this.ModelState);
             return View(updatePaymentDto);
@@ -64,7 +64,7 @@ namespace MyWalletUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var customers = await _customerService.GetAllActiveCustomersForPayment();
+            var customers = await _customerService.GetAllActiveCustomers();
             var monthYearList = TimeHelper.GetMonthYearList();
             ViewBag.MonthYearList = monthYearList;
             return View(new CreatePaymentDto { Customers = customers });
@@ -82,7 +82,7 @@ namespace MyWalletUI.Controllers
 
                 return RedirectToAction("Index", "Payment");
             }
-            var customers = await _customerService.GetAllActiveCustomersForPayment();
+            var customers = await _customerService.GetAllActiveCustomers();
             createPaymentDto.Customers = customers;
             result.AddModelState(this.ModelState);
             return View(createPaymentDto);

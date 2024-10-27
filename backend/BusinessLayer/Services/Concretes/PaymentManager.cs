@@ -33,18 +33,7 @@ namespace BusinessLayer.Services.Concretes
         {
             var map = _mapper.Map<Payment>(createDto);
             await _unitOfWork.GetRepository<Payment>().AddAsync(map);
-            //var customer = await _customerService.GetCustomerById(map.CustomerId);
-            //if (createDto.IsPaid)
-            //{
-            //    await _incomeService.CreateIncomeAsync(new CreateIncomeDto
-            //    {
-            //        CategoryId = 1,
-            //        Cost = createDto.Amount,
-            //        Description = $"{customer.Name} {customer.LastName} müşterisi {createDto.PaymentPeriod.ToString("MMMM yyyy")} dönemi ödemesini yaptı.",
-            //        IncomeDate = createDto.PaymentDate,
-            //        Status = true
-            //    });
-            //}
+           
             await _unitOfWork.SaveAsync();
         }
 
@@ -80,18 +69,7 @@ namespace BusinessLayer.Services.Concretes
         {
             var map = _mapper.Map<Payment>(updateDto);
             await _unitOfWork.GetRepository<Payment>().UpdateAsync(map);
-            //var customer = await _customerService.GetCustomerById(map.CustomerId);
-            //if (updateDto.IsPaid)
-            //{
-            //    await _incomeService.CreateIncomeAsync(new CreateIncomeDto
-            //    {
-            //        CategoryId = 1,
-            //        Cost = updateDto.Amount,
-            //        Description = $"{customer.Name} {customer.LastName} müşterisi {updateDto.PaymentDate.ToShortDateString()} tarihli ödemesini yaptı",
-            //        IncomeDate = updateDto.PaymentDate,
-            //        Status = true
-            //    });
-            //}
+          
             await _unitOfWork.SaveAsync();
             return updateDto.Id.ToString();
         }
@@ -105,6 +83,11 @@ namespace BusinessLayer.Services.Concretes
             return result;
         }
 
-      
+        public async Task<List<ResultPaymentDto>> GetAllPaymentWithCustomerById(int id)
+        {
+            var payments = await _unitOfWork.GetRepository<Payment>().GetAllAsync(x => x.CustomerId == id);
+            var map = _mapper.Map<List<ResultPaymentDto>>(payments);
+            return map;
+        }
     }
 }

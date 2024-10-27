@@ -35,6 +35,11 @@
                     <input asp-for="Phone" type="text" class="form-control" placeholder="Müşteri Telefon Numarası" aria-describedby="basic-addon1" required>
                 </div>
             </div>
+            <p>Servis</p>
+            <div class="form-group">
+                <select id="customerList" class="form-control" asp-for="ActivityId"
+                        asp-items="@(new SelectList(Model.Activities,"Id","Name"))" required></select>
+            </div>
             <p>Müşteri Durumu</p>
             <span asp-validation-for="Status" class="text-danger"></span>
             <div class="form-group">

@@ -1,0 +1,37 @@
+﻿@model GetCustomerDto
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 col-xl-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-row justify-content-between">
+                    <h4 class="card-title">@Model.Name @Model.LastName</h4>
+                    <p class="nav-link btn btn-success create-new-button">Aktif</p>
+                </div>
+                <div class="preview-list">
+                    <div class="preview-item border-bottom">
+                        <div class="preview-thumbnail">
+                        </div>
+                        <div class="preview-item-content d-flex flex-grow">
+                            <div class="flex-grow">
+                                <div class="d-flex d-md-block d-xl-flex justify-content-between">
+                                    <h6 class="preview-subject">Telefon Numarası : @Model.Phone</h6>
+
+                                </div>
+                                <p class="text-muted"></p>
+                            </div>
+                        </div>
+                    </div>
+                    @await Component.InvokeAsync("CustomerPayments", new { customerId = Model.Id })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @await Component.InvokeAsync("CustomerSeans", new { customerId = Model.Id })
+</div>
+

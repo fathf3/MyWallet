@@ -35,7 +35,7 @@
                             count++;
                             <tr>
                                 <td>@count</td>
-                                <td>@customer.Name @customer.LastName</td>
+                                <td><a href="/Customer/Details/@customer.Id">@customer.Name @customer.LastName</a></td>
                                 <td>@customer.Phone</td>
                                 <td>
                                     @if (customer.Status)

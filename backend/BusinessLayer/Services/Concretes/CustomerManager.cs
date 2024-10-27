@@ -19,9 +19,12 @@ namespace BusinessLayer.Services.Concretes
 
         public async Task CreateCustomerAsync(CreateCustomerDto createDto)
         {
+            
+            createDto.Status = true;
             var map = _mapper.Map<Customer>(createDto);
             await _unitOfWork.GetRepository<Customer>().AddAsync(map);
             await _unitOfWork.SaveAsync();
+           
         }
 
         public async Task<string> DeleteCustomerAsync(int id)
@@ -60,6 +63,10 @@ namespace BusinessLayer.Services.Concretes
             var map = _mapper.Map<Customer>(updateDto);
             await _unitOfWork.GetRepository<Customer>().UpdateAsync(map);
             await _unitOfWork.SaveAsync();
+
+           
+
+
             return updateDto.Id.ToString();
         }
 
@@ -72,11 +79,12 @@ namespace BusinessLayer.Services.Concretes
             return customer.Id.ToString();
         }
 
-        public async Task<List<ResultCustomerForPaymentDto>> GetAllActiveCustomersForPayment()
+        public async Task<List<ResultCustomerForPaymentDto>> GetAllActiveCustomers()
         {
             var customers = await _unitOfWork.GetRepository<Customer>().GetAllAsync(x => x.Status);
             var map = _mapper.Map<List<ResultCustomerForPaymentDto>>(customers);
             return map;
         }
     }
+   
 }
