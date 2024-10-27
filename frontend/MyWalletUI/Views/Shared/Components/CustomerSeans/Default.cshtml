@@ -1,0 +1,42 @@
+﻿@model List<ResultSeansDto>
+@{
+    Layout = null;
+    int counter = 0;
+}
+
+<div class="col-md-12 col-xl-4 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Müşteri Seansları</h4>
+
+            <div class="list-wrapper">
+                <ul class="d-flex flex-column-reverse text-white todo-list todo-list-custom">
+                    @foreach (var item in Model)
+                    {
+                        counter++;
+                        <li>
+                            @if (item.Status)
+                            {
+                                <h5>@item.Date.ToString("dd/MM/yyyy") Tarihili @counter .Seans</h5>
+                                <i class="remove" style="visibility: hidden;"></i>
+                                <a class="btn btn-outline-warning" asp-controller="Seans" asp-action="Passive" asp-route-id="@item.Id" asp-route-customerId="@item.CustomerId">Pasif Yap</a>
+                                
+                            }
+                            else
+                            {
+                                 <h5 class="text-decoration-line-through text-gray"> @item.Date.ToString("dd/MM/yyyy") Tarihili @counter .Seans</h5>
+
+                                <i class="remove" style="visibility: hidden;"></i>
+                                <a class="btn btn-outline-success" asp-controller="Seans" asp-action="Active" asp-route-id="@item.Id" asp-route-customerId="@item.CustomerId">Aktif Yap</a>
+
+                            }
+
+                        </li>
+                    }
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

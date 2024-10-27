@@ -1,0 +1,31 @@
+﻿@model UserViewDto
+@{
+    Layout = null;
+}
+
+<li class="nav-item profile">
+    <div class="profile-desc">
+        <div class="profile-pic">
+            <div class="count-indicator">
+                <img class="img-xs rounded-circle " src="~/corona/assets/images/faces/resim.jpg" alt="">
+                <span class="count bg-success"></span>
+            </div>
+            <div class="profile-name">
+                <h5 class="mb-0 font-weight-normal">@Model.Name @Model.LastName</h5>
+                
+            </div>
+        </div>
+        <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
+            <a href="/UserSetting/Index/" class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                        <i class="mdi mdi-settings text-primary"></i>
+                    </div>
+                </div>
+                <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1 text-small"></abbr>Hesap Ayarları</p>
+                </div>
+        </div>
+    </div>
+</li>

@@ -1,6 +1,7 @@
 ﻿using CoreLayer.Entites;
 using DataAccessLayer.Context;
 using DataAccessLayer.Repositories.Abstractions;
+using EntityLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
@@ -82,6 +83,6 @@ namespace DataAccessLayer.Repositories.Concretes
 				.SumAsync(predicate);
         }
 
-        
+       
     }
 }

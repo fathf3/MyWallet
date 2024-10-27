@@ -22,7 +22,9 @@ namespace BusinessLayer.Extensions
 			services.AddScoped <IExpenseService, ExpenseManager>();
 			services.AddScoped <IPaymentService, PaymentManager>();
 			services.AddScoped <ICustomerService, CustomerManager>();
-			;
+			services.AddScoped <IActivityService, ActivityManager>();
+			services.AddScoped <ISeansService, SeansManager>();
+			
 
             services.AddControllersWithViews().AddFluentValidation(opt =>
             {

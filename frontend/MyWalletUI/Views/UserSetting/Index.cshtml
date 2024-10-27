@@ -1,0 +1,47 @@
+﻿﻿
+@model UserEditDto
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Profili Düzenle</h4>
+        <hr>
+
+        <form class="form-group" asp-controller="UserSetting" asp-action="Index" method="post">
+
+
+            <div class="form-group">
+                <p>Adınız</p>
+                <div class="input-group">
+                    <input asp-for="Name" type="text" class="form-control" placeholder="@Model.Name" aria-describedby="basic-addon1" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <p>Soyadınız</p>
+                <div class="input-group">
+                    <input asp-for="Surname" type="text" class="form-control" placeholder="@Model.Surname" aria-describedby="basic-addon1" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <p>Mail Adresiniz</p>
+                <div class="input-group">
+                    <input asp-for="Mail" type="text" class="form-control" placeholder="@Model.Mail" aria-describedby="basic-addon1" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <p>Şifreniz</p>
+                <div class="input-group">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="@Model.Password" aria-describedby="basic-addon1" required>
+                </div>
+            </div>
+            <div class="form-group text-center align-items-center">
+                <button class="btn btn-outline-success  ">Kaydet</btn>
+            </div>
+        </form>
+    </div>
+</div>
+
+

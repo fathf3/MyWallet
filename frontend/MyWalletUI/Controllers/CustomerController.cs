@@ -11,13 +11,15 @@ namespace MyWalletUI.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
+        private readonly IActivityService _activityService;
         private readonly IMapper _mapper;
         private readonly IValidator<Customer> _validator;
-        public CustomerController(ICustomerService customerService, IMapper mapper, IValidator<Customer> validator)
+        public CustomerController(ICustomerService customerService, IMapper mapper, IValidator<Customer> validator, IActivityService activityService)
         {
             _customerService = customerService;
             _mapper = mapper;
             _validator = validator;
+            _activityService = activityService;
         }
 
         public async Task<IActionResult> Index()
@@ -26,11 +28,17 @@ namespace MyWalletUI.Controllers
 
             return View(customers);
         }
+        public async Task<IActionResult> Details(int id)
+        {
+            var customer = await _customerService.GetCustomerById(id);
+
+            return View(customer);
+        }
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-
-            return View();
+            var activities = await _activityService.GetAllActivities();
+            return View(new CreateCustomerDto { Activities = activities });
         }
 
         [HttpPost]

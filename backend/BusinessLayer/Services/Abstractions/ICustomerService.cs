@@ -10,7 +10,7 @@ namespace BusinessLayer.Services.Abstractions
 	public interface ICustomerService
 	{
 		Task<List<ResultCustomerDto>> GetAllCustomers();
-		Task<List<ResultCustomerForPaymentDto>> GetAllActiveCustomersForPayment();
+		Task<List<ResultCustomerForPaymentDto>> GetAllActiveCustomers();
 		Task CreateCustomerAsync(CreateCustomerDto createDto);
 		Task<GetCustomerDto> GetCustomerById(int id);
 		Task<string> UpdateCustomerAsync(UpdateCustomerDto updateDto);

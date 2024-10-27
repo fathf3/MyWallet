@@ -12,6 +12,7 @@ namespace BusinessLayer.Services.Abstractions
 	{
 		Task<List<ResultPaymentDto>> GetAllPayments();
         Task<List<ResultPaymentDto>> GetAllPaymentWithCustomer();
+        Task<List<ResultPaymentDto>> GetAllPaymentWithCustomerById(int id);
         Task CreatePaymentAsync(CreatePaymentDto createDto);
 		Task<GetPaymentDto> GetPaymentById(int id);
 		Task<string> UpdatePaymentAsync(UpdatePaymentDto updateDto);

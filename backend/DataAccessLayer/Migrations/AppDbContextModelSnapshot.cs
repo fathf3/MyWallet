@@ -22,6 +22,23 @@ namespace DataAccessLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EntityLayer.Entities.Activity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Activities");
+                });
+
             modelBuilder.Entity("EntityLayer.Entities.AppRole", b =>
                 {
                     b.Property<int>("Id")
@@ -159,6 +176,9 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ActivityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -175,6 +195,8 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
 
                     b.ToTable("Customers");
                 });
@@ -272,6 +294,38 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("EntityLayer.Entities.Seans", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ActivityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SeansCount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Seans");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -377,6 +431,17 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("EntityLayer.Entities.Customer", b =>
+                {
+                    b.HasOne("EntityLayer.Entities.Activity", "Activity")
+                        .WithMany("Customers")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
+                });
+
             modelBuilder.Entity("EntityLayer.Entities.Expense", b =>
                 {
                     b.HasOne("EntityLayer.Entities.Category", "Category")
@@ -406,6 +471,25 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("EntityLayer.Entities.Seans", b =>
+                {
+                    b.HasOne("EntityLayer.Entities.Activity", "Activity")
+                        .WithMany("Seans")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntityLayer.Entities.Customer", "Customer")
+                        .WithMany("Seans")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
 
                     b.Navigation("Customer");
                 });
@@ -461,6 +545,13 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EntityLayer.Entities.Activity", b =>
+                {
+                    b.Navigation("Customers");
+
+                    b.Navigation("Seans");
+                });
+
             modelBuilder.Entity("EntityLayer.Entities.Category", b =>
                 {
                     b.Navigation("Expenses");
@@ -471,6 +562,8 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("EntityLayer.Entities.Customer", b =>
                 {
                     b.Navigation("Payments");
+
+                    b.Navigation("Seans");
                 });
 #pragma warning restore 612, 618
         }

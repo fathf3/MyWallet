@@ -40,7 +40,7 @@
             <span asp-validation-for="IncomeDate" class="text-danger"></span>
             <div class="form-group">
                 
-                <input asp-for="IncomeDate" type="date" value="@DateTime.Now.Date.ToShortDateString()" required />
+                <input class="form-control-sm" asp-for="IncomeDate" type="date"min="@DateTime.Now.Date.ToShortDateString()" required />
             </div>
            
             <div class="form-group text-center align-items-center">

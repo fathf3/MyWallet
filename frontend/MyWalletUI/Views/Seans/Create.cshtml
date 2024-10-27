@@ -1,0 +1,41 @@
+﻿@model CreateSeansDto
+@{
+    ViewData["Title"] = "Seans Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Yeni Seans Ekle</h4>
+        <hr>
+        <form class="form-group" asp-controller="Seans" asp-action="Create" method="post">
+            
+            <p>Müşteri </p>
+            <div class="form-group">
+                <select id="customerList" class="form-control" asp-for="CustomerId"
+                        asp-items="@(new SelectList(Model.Customers,"Id","FullName"))" required></select>
+            </div>
+            <p>Servis</p>
+            <div class="form-group">
+                <select id="customerList" class="form-control" asp-for="ActivityId"
+                        asp-items="@(new SelectList(Model.Activities,"Id","Name"))" required></select>
+            </div>
+            <p>Seans Sayısı</p>
+            <div class="form-group">
+                <div class="input-group">
+                    <input asp-for="SeansCount" type="text" class="form-control" placeholder="500" aria-describedby="basic-addon1" required>
+                </div>
+            </div>
+
+            <p>Başlangıç Tarihi Giriniz</p>
+            <div class="form-group">
+
+                <input asp-for="Date" type="datetime-local" value="@DateTime.Now.Date.ToShortDateString()" required />
+            </div>
+            <div class="form-group text-center align-items-center">
+                <button class="btn btn-outline-success  ">Kaydet</btn>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,68 @@
+﻿@model List<ResultPaymentDto>
+@{
+    Layout = null;
+    string badgeInfo = "";
+    string textInfo = "";
+    int count = 0;
+}
+
+<div class="table-responsive">
+    <table class="table" id="paymentsTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                
+                <th>Ücret</th>
+                <th>Ödeme Dönemi</th>
+                <th>Ödeme Tarihi</th>
+                <th>Ödeme Durumu</th>
+                <th>Sil</th>
+                <th>Güncelle</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Model)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    
+                    <td>@payment.Amount</td>
+                    <td>@payment.PaymentPeriod.ToString("MMMM yyyy")</td>
+                    <td>@payment.PaymentDate.ToShortDateString()</td>
+                    <td>
+                        @if (payment.IsPaid)
+                        {
+                            badgeInfo = "badge badge-success";
+                            textInfo = "Ödedi";
+
+
+                        }
+                        else
+                        {
+                            badgeInfo = "badge badge-danger";
+                            textInfo = "Ödeme Yapılmadı";
+
+                        }
+
+                        <label class="@badgeInfo">@textInfo</label>
+                    </td>
+                    <td>
+                        <a onclick="deleteItem(event)" class="btn btn-outline-danger btn-group-lg" href="/Payment/Delete/@payment.Id">
+                            <i class="mdi mdi-close-circle-outline"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-warning btn-group-lg" href="/Payment/Update/@payment.Id">
+                            <i class="mdi mdi-database"></i>
+                        </a>
+                    </td>
+
+                </tr>
+            }
+           
+
+        </tbody>
+    </table>
+</div>
