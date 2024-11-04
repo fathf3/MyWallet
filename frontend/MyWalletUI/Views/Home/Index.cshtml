@@ -2,219 +2,80 @@
 
 @{
     ViewData["Title"] = "Ana Sayfa";
-
+    
 }
 
 
+@await Component.InvokeAsync("DashboardBalance")
+
 
 <div class="row">
+   
 
-    <div class="col-sm-4 grid-margin">
+    <div class="col-lg-6 grid-margin stretch-card">
         <div class="card">
-            <div class="card-body">
-                <h2>Bakiye</h2>
-                <div class="row">
-                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                        <div class="d-flex d-sm-block d-md-flex align-items-center">
-                            <h2  class="mb-0">@ViewBag.totalBalance</h2>
-                            
-                            <!-- <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p> -->
-                        </div>
-                        <!-- <h6 class="text-muted font-weight-normal">11.38% Since last month</h6> -->
+
+            <div class="card-body d-flex justify-content-center">
+                <form method="get" id="filter" >
+                    <h3 class="d-flex justify-content-center">Gelir Tarihi Seçiniz</h3>
+                    <p class="d-flex justify-content-center">Seçtiğiniz aya ait gelir bilgisini gösterir</p>
+                    <div class="d-flex justify-content-center">
+                        <input class="form-control-sm" type="date" min="@DateTime.Now.Date.ToShortDateString()" id="datePicker" name="filterIncomeDate"  required />
+                       
+                        <button onclick="onclick_1()" type="submit">Verileri Getir</button>
                     </div>
-                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-                        <i class="icon-lg mdi mdi-codepen text-primary ms-auto"></i>
-                    </div>
-                </div>
+
+                </form>
+            </div>
+            
+            <div id="IncomeComponent" class="d-flex justify-content-center">
+                @await Component.InvokeAsync("DashboardMonthlyIncomeChart", new { filterIncomeDate = @ViewBag.dateForIncomeChart })
             </div>
         </div>
-    </div>  <!--Bakiye-->
-    <div class="col-sm-4 grid-margin">
+
+
+
+    </div>
+
+   <div class="col-lg-6 grid-margin stretch-card">
         <div class="card">
-            <div class="card-body">
-                <h2>Toplam Gelir</h2>
-                <div class="row">
-                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                        <div class="d-flex d-sm-block d-md-flex align-items-center">
-                            <h2 class="mb-0">@ViewBag.totalIncome₺</h2>
-                            <!-- <p class="text-success ms-2 mb-0 font-weight-medium">+8.3%</p> -->
-                        </div>
-                        <!-- <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6> -->
+
+            <div class="card-body d-flex justify-content-center">
+                <form method="get" id="filter">
+                    <h3 class="d-flex justify-content-center">Gider Tarihi Seçiniz</h3>
+                    <p class="d-flex justify-content-center">Seçtiğiniz aya ait gider bilgisini gösterir</p>
+                    <div class="d-flex justify-content-center">
+                        <input class="form-control-sm" type="date" min="@DateTime.Now.Date.ToShortDateString()" id="datePicker" name="filterExpenseDate" required />
+
+                        <button onclick="onclick_1()" type="submit">Verileri Getir</button>
                     </div>
-                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-                        <i class="icon-lg mdi mdi-monitor text-success ms-auto"></i>
-                    </div>
-                </div>
+
+                </form>
+            </div>
+
+            <div id="ExpenseComponent" class="d-flex justify-content-center">
+                @await Component.InvokeAsync("DashboardMonthlyExpenseChart", new { filterIncomeDate = @ViewBag.dateForExpenseChart })
             </div>
         </div>
-    </div>  <!--Toplam Gelir-->
-    <div class="col-sm-4 grid-margin">
-        <div class="card">
-            <div class="card-body">
-                <h2>Toplam Gider</h2>
-                <div class="row">
-                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                        <div class="d-flex d-sm-block d-md-flex align-items-center">
-                            <h2 class="mb-0">@ViewBag.totalExpense₺</h2>
-                            <!-- <p class="text-danger ms-2 mb-0 font-weight-medium">-2.1% </p> -->
-                        </div>
-                        <!-- <h6 class="text-muted font-weight-normal">2.27% Since last month</h6> -->
-                    </div>
-                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-                        <i class="icon-lg mdi mdi-wallet-travel text-danger ms-auto"></i>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>  <!--Toplam Gider-->
+
+
+
+    </div> 
+
 
 </div>
 
-<div class="row">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
     
-    <div class="col-xl-4 col-sm-6 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-10">
-                        <div class="d-flex align-items-center align-self-start">
-                           
-                            @if (@ViewBag.incomeDayDif < 0)
-                            {
-                                <h2 class="text-danger mb-0">@ViewBag.incomeDay.ToString("0.00")₺</h2>
-                                <p class="text-danger ms-2 mb-0 font-weight-medium">@ViewBag.incomeDayDif.ToString("0.00")%</p>
+    jQuery(document).ready(function ($) {
+        $("filter").submit(function () {
+            $(this).find(":input").filter(function () { return !this.value; }).attr("disabled", "disabled");
+            return true;
+        });
+        $("form").find(":input").prop("disabled", false);
+    });
 
-                            }
-                            else
-                            {
-                                <h3 class="text-success mb-0">@ViewBag.incomeDay.ToString("0.00")₺</h3>
-                                <p class="text-success ms-2 mb-0 font-weight-medium">+@ViewBag.incomeDayDif.ToString("0.00")%</p>
+</script>
 
-                            }
-
-                        </div>
-                    </div>
-                    @if (@ViewBag.incomeDayDif < 0)
-                    {
-                        <div class="col-1">
-                            <div class="icon icon-box-danger align-items-right">
-                                <span class="mdi mdi-arrow-bottom-left icon-item"></span>
-                            </div>
-                        </div>
-
-                    }
-                    else
-                    {
-                        <div class="col-1">
-                            <div class="icon icon-box-success align-items-right">
-                                <span class="mdi mdi-arrow-top-right icon-item"></span>
-                            </div>
-                        </div>
-
-                    }
-
-                </div>
-                <h6 class="text-muted font-weight-normal">Günlük Gelir</h6>
-            </div>
-        </div>
-    </div>  <!--Günlük Gelir-->
-
-    <div class="col-xl-4 col-sm-6 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-10">
-                        <div class="d-flex align-items-center align-self-start">
-
-                            @if (@ViewBag.incomeThisWeek < 0)
-                            {
-                                <h2 class="text-danger mb-0">@ViewBag.incomeThisWeek.ToString("0.00")₺</h2>
-                                <p class="text-danger ms-2 mb-0 font-weight-medium">@ViewBag.incomeThisWeekDif.ToString("0.00")%</p>
-
-                            }
-                            else
-                            {
-                                <h3 class="text-success mb-0">@ViewBag.incomeThisWeek.ToString("0.00")₺</h3>
-                                <p class="text-success ms-2 mb-0 font-weight-medium">+@ViewBag.incomeThisWeekDif.ToString("0.00")%</p>
-
-                            }
-
-                        </div>
-                    </div>
-                    @if (@ViewBag.incomeThisWeekDif < 0)
-                    {
-                        <div class="col-1">
-                            <div class="icon icon-box-danger align-items-right">
-                                <span class="mdi mdi-arrow-bottom-left icon-item"></span>
-                            </div>
-                        </div>
-
-                    }
-                    else
-                    {
-                        <div class="col-1">
-                            <div class="icon icon-box-success align-items-right">
-                                <span class="mdi mdi-arrow-top-right icon-item"></span>
-                            </div>
-                        </div>
-
-                    }
-
-                </div>
-                <h6 class="text-muted font-weight-normal">Haftalık Gelir</h6>
-            </div>
-        </div>
-    </div>  <!--Haftalık Gelir-->
-
-    <div class="col-xl-4 col-sm-6 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-10">
-                        <div class="d-flex align-items-center align-self-start">
-
-                            @if (@ViewBag.incomeThisMonthDif < 0)
-                            {
-                                <h2 class="text-danger mb-0">@ViewBag.incomeThisMonth.ToString("0.00")₺</h2>
-                                <p class="text-danger ms-2 mb-0 font-weight-medium">@ViewBag.incomeThisMonthDif.ToString("0.00")%</p>
-
-                            }
-                            else
-                            {
-                                <h3 class="text-success mb-0">@ViewBag.incomeThisMonth.ToString("0.00")₺</h3>
-                                <p class="text-success ms-2 mb-0 font-weight-medium">+@ViewBag.incomeThisMonthDif.ToString("0.00")%</p>
-
-                            }
-
-                        </div>
-                    </div>
-                    @if (@ViewBag.incomeThisMonthDif < 0)
-                    {
-                        <div class="col-1">
-                            <div class="icon icon-box-danger align-items-right">
-                                <span class="mdi mdi-arrow-bottom-left icon-item"></span>
-                            </div>
-                        </div>
-
-                    }
-                    else
-                    {
-                        <div class="col-1">
-                            <div class="icon icon-box-success align-items-right">
-                                <span class="mdi mdi-arrow-top-right icon-item"></span>
-                            </div>
-                        </div>
-
-                    }
-
-                </div>
-                <h6 class="text-muted font-weight-normal">Aylık Gelir</h6>
-            </div>
-        </div>
-    </div>  <!--Aylık Gelir-->
-
-
-    
-
-</div>

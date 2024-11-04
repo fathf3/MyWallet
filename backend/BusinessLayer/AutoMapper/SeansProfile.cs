@@ -10,6 +10,9 @@ namespace BusinessLayer.AutoMapper
         {
             CreateMap<Seans, CreateSeansDto>().ReverseMap();
             CreateMap<Seans, ResultSeansDto>().ReverseMap();
+            CreateMap<Seans, UpdateSeansDto>().ReverseMap();
+            CreateMap<Seans, GetSeansDto>().ReverseMap();
+            CreateMap<UpdateSeansDto, GetSeansDto>().ReverseMap();
         }
     }
 }

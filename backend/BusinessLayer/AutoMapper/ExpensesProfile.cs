@@ -18,6 +18,8 @@ namespace BusinessLayer.AutoMapper
 			CreateMap<Expense, ResultExpenseDto>().ReverseMap();
 			CreateMap<Expense, GetExpenseDto>().ReverseMap();
 			CreateMap<UpdateExpenseDto, GetExpenseDto>().ReverseMap();
+			CreateMap<ResultExpenseDto, GetMonthlyExpenseDto>().ReverseMap();
+			CreateMap<Expense, GetMonthlyExpenseDto>().ReverseMap();
 		}
 	}
 }

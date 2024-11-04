@@ -27,8 +27,8 @@
                 count++;
                 <tr>
                     <td>@count</td>
-                    
-                    <td>@payment.Amount</td>
+
+                    <td>@payment.Amount.ToString("C", new CultureInfo("tr-TR"))</td>
                     <td>@payment.PaymentPeriod.ToString("MMMM yyyy")</td>
                     <td>@payment.PaymentDate.ToShortDateString()</td>
                     <td>

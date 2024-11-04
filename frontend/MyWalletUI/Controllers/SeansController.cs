@@ -37,7 +37,19 @@ namespace MyWalletUI.Controllers
             await _seansService.CreateSeansAsync(createSeansDto);
             return Redirect($"/Customer/Details/{createSeansDto.CustomerId}");
         }
-
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var result = await _seansService.GetSeansById(id);
+            var map = _mapper.Map<UpdateSeansDto>(result);
+            return View(map);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateSeansDto updateSeansDto)
+        {
+            await _seansService.UpdateAsync(updateSeansDto);
+            return Redirect($"/Customer/Details/{updateSeansDto.CustomerId}");
+        }
         public async Task<IActionResult> Delete(int id, int customerId)
         {
             await _seansService.DeleteSeansAsync(id);
