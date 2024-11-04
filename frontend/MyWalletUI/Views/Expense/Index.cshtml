@@ -36,9 +36,9 @@
                             count++;
                             <tr>
                                 <td>@count</td>
-                                <td>@expense.Cost ₺</td>
+                                <td>@expense.Cost.ToString("C", new CultureInfo("tr-TR")) ₺</td>
                                 <td>
-                                    <label class="badge badge-success">@expense.Category.Name</label>
+                                    <label class="badge badge-outline-success">@expense.Category.Name</label>
                                 </td>
                                 @if (expense.Description.Length > 30)
                                 {

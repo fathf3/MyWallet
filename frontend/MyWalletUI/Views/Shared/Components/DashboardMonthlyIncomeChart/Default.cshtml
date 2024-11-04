@@ -1,0 +1,64 @@
+﻿@model List<GetMonthlyIncomeDto>
+@{
+    Layout = null;
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="col-lg-8">
+    <canvas id="incomeChart"></canvas>
+</div>
+<script>
+    // Model verileri
+    var categoryNames = @Html.Raw(Json.Serialize(Model.Select(x => x.CategoryName)));
+    var totalAmounts = @Html.Raw(Json.Serialize(Model.Select(x => x.TotalAmount)));
+    
+
+    // Toplam geliri ViewData'dan alın
+    var totalIncome = @Html.Raw(Json.Serialize(ViewData["TotalIncome"]));
+    totalIncome = (totalIncome).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    // Renk Dizisi
+    var colors = [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#d0e0e3', '#b2d75f'
+    ];
+
+    // Chart.js eklentisi - Ortada toplam geliri göstermek için
+    Chart.register({
+        id: 'totalIncomePlugin',
+        afterDraw: (chart) => {
+            const { ctx, width, height } = chart;
+            ctx.save();
+            ctx.font = '25px Arial';
+            
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.fillStyle = '#fff';
+            ctx.fillText(`₺${totalIncome}`, width / 2, height / 2,);
+            ctx.restore();
+        }
+    });
+
+    // Doughnut grafiğini tanımla
+    var ctx = document.getElementById('incomeChart').getContext('2d');
+    var incomeChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: categoryNames,
+            datasets: [{
+                label: 'Kategoriye Göre Gelirler',
+                data: totalAmounts,
+                backgroundColor: colors,
+                borderColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        },
+        plugins: ['totalIncomePlugin'] // Eklentiyi ekleyin
+    });
+</script>

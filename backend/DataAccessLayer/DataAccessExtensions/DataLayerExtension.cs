@@ -19,7 +19,7 @@ namespace DataAccessLayer.DataAccessExtensions
 		public static IServiceCollection LoadDataLayerEntension(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddDbContext<AppDbContext>(opt => opt
-			.UseSqlServer(configuration.GetConnectionString("SqlConnection2")));
+			.UseSqlServer(configuration.GetConnectionString("SqlConnection")));
 			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			return services;

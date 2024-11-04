@@ -2,6 +2,7 @@
 using BusinessLayer.Services.Abstractions;
 using DataAccessLayer.UnitOfWorks.Abstractions;
 using DtoLayer.Dtos.ExpenseDtos;
+using DtoLayer.Dtos.IncomeDtos;
 using EntityLayer.Entities;
 
 namespace BusinessLayer.Services.Concretes
@@ -38,7 +39,7 @@ namespace BusinessLayer.Services.Concretes
             var map = _mapper.Map<List<ResultExpenseDto>>(expenses);
             return map;
         }
-       
+
         public async Task<List<ResultExpenseDto>> GetAllExpensesWithCategory()
         {
             var expenses = await _unitOfWork
@@ -91,12 +92,30 @@ namespace BusinessLayer.Services.Concretes
         {
             DateTime today = DateTime.Now.Date;
             DateTime lastWeek = today.AddDays(-7);
-            var sumIncome = await _unitOfWork
+            var sumExpense = await _unitOfWork
               .GetRepository<Expense>()
               .SumAsync(x => x.Status && (x.ExpenseDate >= lastWeek && x.ExpenseDate <= today), y => y.Cost);
-            return sumIncome;
+            return sumExpense;
         }
 
-       
+        public async Task<List<GetMonthlyExpenseDto>> GetExpenseWithDateFilter(bool status, DateTime date)
+        {
+            {
+                date = date == default ? DateTime.Now : date;
+                var result = await _unitOfWork
+                   .GetRepository<Expense>()
+                   .GetAllAsync(x => status && (x.ExpenseDate.Month == date.Month) && (x.ExpenseDate.Year == date.Year), x => x.Category);
+
+                var data = result.GroupBy(i => i.Category.Name)
+                     .Select(g => new GetMonthlyExpenseDto
+                     {
+                         CategoryName = g.Key,
+                         TotalAmount = g.Sum(i => i.Cost)
+                     }).ToList();
+
+
+                return data;
+            }
+        }
     }
 }

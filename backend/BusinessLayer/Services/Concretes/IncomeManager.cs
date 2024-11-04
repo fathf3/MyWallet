@@ -26,7 +26,7 @@ namespace BusinessLayer.Services.Concretes
 
         public async Task<string> DeleteIncomeAsync(int id)
         {
-             var income = await _unitOfWork.GetRepository<Income>().GetByIdAsync(id);
+            var income = await _unitOfWork.GetRepository<Income>().GetByIdAsync(id);
             await _unitOfWork.GetRepository<Income>().DeleteAsync(income);
             await _unitOfWork.SaveAsync();
             return income.Id.ToString();
@@ -78,13 +78,22 @@ namespace BusinessLayer.Services.Concretes
                 .SumAsync(x => x.Status, y => y.Cost);
             return sumIncome;
         }
-        public async Task<List<ResultIncomeDto>> GetIncomeWithDateFilter()
+        public async Task<List<GetMonthlyIncomeDto>> GetIncomeWithDateFilter(bool status, DateTime date = default)
         {
+            date = date == default ? DateTime.Now : date;
             var result = await _unitOfWork
                .GetRepository<Income>()
-               .GetAllAsync(x => (x.Status) && (x.IncomeDate.Month == 11) && (x.IncomeDate.Year == 2024));
-            var map = _mapper.Map<List<ResultIncomeDto>>(result);
-            return map;
+               .GetAllAsync(x => status && (x.IncomeDate.Month == date.Month) && (x.IncomeDate.Year == date.Year), x => x.Category);
+
+           var data = result.GroupBy(i => i.Category.Name)
+                .Select(g => new GetMonthlyIncomeDto
+                {
+                    CategoryName = g.Key,
+                    TotalAmount = g.Sum(i => i.Cost)
+                }).ToList();
+
+            
+            return data;
         }
         public async Task<decimal> GetTotalIncomeThisMonth()
         {
@@ -113,5 +122,9 @@ namespace BusinessLayer.Services.Concretes
               .SumAsync(x => x.Status && (x.IncomeDate >= lastWeek && x.IncomeDate <= today), y => y.Cost);
             return sumIncome;
         }
+
+
+
+
     }
 }

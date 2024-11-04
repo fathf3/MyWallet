@@ -11,6 +11,8 @@ namespace BusinessLayer.Services.Abstractions
     {
         Task<List<ResultSeansDto>> GetAllSeansWithCustomer(int id);
         Task CreateSeansAsync(CreateSeansDto createDto);
+        Task<bool> UpdateAsync(UpdateSeansDto updateSeansDto);
+        Task<GetSeansDto> GetSeansById(int id);
         Task<string> DeleteSeansAsync(int id);
         Task<string> ActiveSeansAsync(int id);
         Task<string> PassiveSeansAsync(int id);

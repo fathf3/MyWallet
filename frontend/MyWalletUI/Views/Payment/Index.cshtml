@@ -37,20 +37,20 @@
                             <tr>
                                 <td>@count</td>
                                 <td>@payment.Customer.Name @payment.Customer.LastName </td>
-                                <td>@payment.Amount</td>
-                                <td>@payment.PaymentPeriod.ToString("MMMM yyyy")</td>
+                                <td>@payment.Amount.ToString("C", new CultureInfo("tr-TR"))</td>
+                                <td>@payment.PaymentPeriod.ToString("MMMM yyyy", new CultureInfo("tr-TR"))</td>
                                 <td>@payment.PaymentDate.ToShortDateString()</td>
                                 <td>
                                     @if (payment.IsPaid)
                                     {
-                                        badgeInfo = "badge badge-success";
+                                        badgeInfo = "badge badge-outline-success";
                                         textInfo = "Ödedi";
 
 
                                     }
                                     else
                                     {
-                                        badgeInfo = "badge badge-danger";
+                                        badgeInfo = "badge badge-outline-danger";
                                         textInfo = "Ödeme Yapılmadı";
 
                                     }

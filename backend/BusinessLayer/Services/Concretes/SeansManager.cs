@@ -65,6 +65,13 @@ namespace BusinessLayer.Services.Concretes
             return map;
         }
 
+        public async Task<GetSeansDto> GetSeansById(int id)
+        {
+            var result =await _unitOfWork.GetRepository<Seans>().GetByIdAsync(id);
+            var map = _mapper.Map<GetSeansDto>(result);
+            return map;
+        }
+
         public async Task<string> PassiveSeansAsync(int id)
         {
             var seans = await _unitOfWork.GetRepository<Seans>().GetByIdAsync(id);
@@ -72,6 +79,15 @@ namespace BusinessLayer.Services.Concretes
             await _unitOfWork.GetRepository<Seans>().UpdateAsync(seans);
             await _unitOfWork.SaveAsync();
             return seans.Id.ToString();
+        }
+
+        public async Task<bool> UpdateAsync(UpdateSeansDto updateSeansDto)
+        {
+            updateSeansDto.Status = true;
+            var map = _mapper.Map<Seans>(updateSeansDto);
+            await _unitOfWork.GetRepository<Seans>().UpdateAsync(map);
+            await _unitOfWork.SaveAsync();
+            return true;
         }
     }
 }

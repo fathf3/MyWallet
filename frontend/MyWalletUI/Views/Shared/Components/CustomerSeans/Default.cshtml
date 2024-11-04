@@ -19,7 +19,7 @@
                             {
                                 <h5>@item.Date.ToString("dd/MM/yyyy") Tarihili @counter .Seans</h5>
                                 <i class="remove" style="visibility: hidden;"></i>
-                                <a class="btn btn-outline-warning" asp-controller="Seans" asp-action="Passive" asp-route-id="@item.Id" asp-route-customerId="@item.CustomerId">Pasif Yap</a>
+                                <a class="btn btn-outline-warning" asp-controller="Seans" asp-action="Passive" asp-route-id="@item.Id" asp-route-customerId="@item.CustomerId"><i class="mdi mdi-minus"></i></a>
                                 
                             }
                             else
@@ -27,10 +27,11 @@
                                  <h5 class="text-decoration-line-through text-gray"> @item.Date.ToString("dd/MM/yyyy") Tarihili @counter .Seans</h5>
 
                                 <i class="remove" style="visibility: hidden;"></i>
-                                <a class="btn btn-outline-success" asp-controller="Seans" asp-action="Active" asp-route-id="@item.Id" asp-route-customerId="@item.CustomerId">Aktif Yap</a>
+                                <a class="btn btn-outline-success" asp-controller="Seans" asp-action="Active" asp-route-id="@item.Id" asp-route-customerId="@item.CustomerId"><i class="mdi mdi-plus-circle"></i></a>
 
                             }
-
+                            <i class="remove" style="visibility: hidden;"></i>
+                            <a class="btn btn-outline-primary" asp-controller="Seans" asp-action="Update" asp-route-id="@item.Id"> <i class="mdi mdi-database"></i></a>
                         </li>
                     }
 

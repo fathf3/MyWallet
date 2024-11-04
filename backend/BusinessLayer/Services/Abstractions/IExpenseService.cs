@@ -1,5 +1,6 @@
 ﻿using DtoLayer.Dtos.ExpenseDtos;
 using DtoLayer.Dtos.ExpenseDtos;
+using DtoLayer.Dtos.IncomeDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace BusinessLayer.Services.Abstractions
 	{
         Task<List<ResultExpenseDto>> GetAllExpenses();
         Task<List<ResultExpenseDto>> GetAllExpensesWithCategory();
+        Task<List<GetMonthlyExpenseDto>> GetExpenseWithDateFilter(bool status, DateTime date);
         Task CreateExpenseAsync(CreateExpenseDto createDto);
         Task<GetExpenseDto> GetExpenseById(int id);
         Task<string> UpdateExpenseAsync(UpdateExpenseDto updateDto);

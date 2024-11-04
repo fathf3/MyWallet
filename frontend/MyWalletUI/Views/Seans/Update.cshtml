@@ -1,0 +1,24 @@
+﻿@model UpdateSeansDto
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Seans Tarih Güncelle</h4>
+        <hr>
+        <form class="form-group" asp-controller="Seans" asp-action="Update" method="post">
+           
+            <div class="form-group">
+                <input type="hidden" asp-for="CustomerId" value="@Model.CustomerId" />
+                <input type="hidden" asp-for="ActivityId" value="@Model.ActivityId" />
+                <p>Yeni Tarih Giriniz</p>
+                <input asp-for="Date" type="datetime-local" value="@Model.Date" required />
+            </div>
+            <div class="form-group text-center align-items-center">
+                <button class="btn btn-outline-success  ">Kaydet</btn>
+            </div>
+        </form>
+    </div>
+</div>
