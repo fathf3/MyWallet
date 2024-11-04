@@ -5,7 +5,7 @@
 <h2>Project Screenshots:</h2>
 
 <img src="https://r.resimlink.com/OT3WzU-.png" alt="project-screenshot" width="750" height="400/">
-<img src="https://i.hizliresim.com/czomo6g.png" alt="project-screenshot" width="750" height="400/">
+<img src="https://drive.google.com/file/d/1Sm4uq7W18eH9F721HrKAslroLZhb3L7i/view" alt="project-screenshot" width="750" height="400/">
 
   
   
