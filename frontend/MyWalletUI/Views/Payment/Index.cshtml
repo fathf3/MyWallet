@@ -37,8 +37,8 @@
                             <tr>
                                 <td>@count</td>
                                 <td>@payment.Customer.Name @payment.Customer.LastName </td>
-                                <td>@payment.Amount.ToString("C", new CultureInfo("tr-TR"))</td>
-                                <td>@payment.PaymentPeriod.ToString("MMMM yyyy", new CultureInfo("tr-TR"))</td>
+                                <td>@payment.Amount.ToString("C")</td>
+                                <td>@payment.PaymentPeriod.ToString("MMMM yyyy")</td>
                                 <td>@payment.PaymentDate.ToShortDateString()</td>
                                 <td>
                                     @if (payment.IsPaid)
@@ -82,3 +82,6 @@
         if (!confirm(`Silmek istediğinize emin misiniz?`)) e.preventDefault();
     }
 </script>
+@section Scripts{
+    <script src="~/js/paymentIndex.js" type="application/ecmascript"></script>
+}

@@ -1,6 +1,6 @@
 ﻿
 ﻿$(document).ready(function () {
-     $('#paymentsTable').DataTable({
+     $('#expenseTable').DataTable({
         dom:
             "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
             "<'row'<'col-sm-12'tr>>" +

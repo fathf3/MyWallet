@@ -16,7 +16,7 @@
             <a class="nav-link btn btn-danger create-new-button" href="/Expense/Create/">+ Yeni Gider Ekle</a>
             <hr>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="expenseTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -36,7 +36,7 @@
                             count++;
                             <tr>
                                 <td>@count</td>
-                                <td>@expense.Cost.ToString("C", new CultureInfo("tr-TR")) ₺</td>
+                                <td>@expense.Cost.ToString("C") ₺</td>
                                 <td>
                                     <label class="badge badge-outline-success">@expense.Category.Name</label>
                                 </td>
@@ -80,3 +80,6 @@
         if (!confirm(`Silmek istediğinize emin misiniz?`)) e.preventDefault();
     }
 </script>
+@section Scripts {
+    <script src="~/js/expenseIndex.js" type="application/ecmascript"></script>
+}

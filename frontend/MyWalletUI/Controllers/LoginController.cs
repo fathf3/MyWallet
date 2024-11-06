@@ -30,5 +30,12 @@ namespace MyWalletUI.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public  async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect("/Login/Index");
+
+        }
     }
 }

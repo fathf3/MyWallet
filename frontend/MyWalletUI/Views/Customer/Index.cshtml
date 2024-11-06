@@ -15,7 +15,7 @@
             <a class="nav-link btn btn-success create-new-button" href="/Customer/Create/">+ Yeni Müşteri Ekle</a>
             <hr>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="customerTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -94,3 +94,6 @@
     }
 </script>
 
+@section Scripts {
+    <script src="~/js/customerIndex.js" type="application/ecmascript"></script>
+}
