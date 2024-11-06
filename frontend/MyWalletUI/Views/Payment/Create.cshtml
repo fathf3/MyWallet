@@ -45,7 +45,7 @@
                 <select asp-for="PaymentPeriod" id="monthYear" name="PaymentPeriod" class="form-control">
                     @foreach (var item in ViewBag.MonthYearList)
                     {
-                        <option value="@item">@item.ToString("MMMM yyyy", new CultureInfo("tr-TR"))</option>
+                        <option value="@item">@item.ToString("MMMM yyyy")</option>
                     }
                 </select>
             </div>

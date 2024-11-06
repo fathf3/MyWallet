@@ -5,6 +5,7 @@ using EntityLayer.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 var requireAuthorizePolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser()
     .Build();
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+	var supportedCultures = new[] { new CultureInfo("tr-TR") };
+
+	options.DefaultRequestCulture = new RequestCulture("tr-TR");
+	options.SupportedCultures = supportedCultures;
+	options.SupportedUICultures = supportedCultures;
+});
 
 builder.Services.LoadDataLayerEntension(builder.Configuration);
 builder.Services.LoadServiceLayerExtension();
@@ -53,7 +63,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseRequestLocalization();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

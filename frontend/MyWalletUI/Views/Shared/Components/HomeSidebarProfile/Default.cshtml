@@ -15,17 +15,40 @@
                 
             </div>
         </div>
-        <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-            <a href="/UserSetting/Index/" class="dropdown-item preview-item">
+        <a href="#" id="profile-dropdown" data-bs-toggle="dropdown" aria-expanded="false" class=""><i class="mdi mdi-dots-vertical"></i></a>
+        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown" style="">
+            <a href="/UserSetting/Index" class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
                     <div class="preview-icon bg-dark rounded-circle">
                         <i class="mdi mdi-settings text-primary"></i>
                     </div>
                 </div>
                 <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small"></abbr>Hesap Ayarları</p>
+                    <p class="preview-subject ellipsis mb-1 text-small">Hesap Ayarları</p>
                 </div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="/UserSetting/Index" class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                        <i class="mdi mdi-onepassword  text-info"></i>
+                    </div>
+                </div>
+                <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1 text-small">Şifre Değiştir</p>
+                </div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="/Login/LogOut" class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                    <div class="preview-icon bg-dark rounded-circle">
+                        <i class="mdi mdi-calendar-today text-danger"></i>
+                    </div>
+                </div>
+                <div class="preview-item-content">
+                    <p class="preview-subject ellipsis mb-1 text-small">Çıkış Yap</p>
+                </div>
+            </a>
         </div>
     </div>
 </li>

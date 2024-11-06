@@ -6,6 +6,7 @@ using DtoLayer.Dtos.PaymentDtos;
 using EntityLayer.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
 
+
 namespace BusinessLayer.Services.Concretes
 {
     public class PaymentManager : IPaymentService
@@ -93,7 +94,7 @@ namespace BusinessLayer.Services.Concretes
                     CategoryId = updateDto.CategoryId,
                     IncomeDate = updateDto.PaymentDate,
                     Status = true,
-                    Description = $"{customers.Name} {customers.LastName} müşterisi - {updateDto.PaymentPeriod.ToString("MMMM yyyy")} dönemi için ödemesini yapmıştır. "
+                    Description = $"{customers.Name} {customers.LastName}  - {updateDto.PaymentPeriod.ToString("MMMM yyyy")} dönemi için ödemesini yapmıştır. "
 
                 });
             }
