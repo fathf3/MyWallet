@@ -3,10 +3,12 @@ using BusinessLayer.Services.Abstractions;
 using DtoLayer.Dtos.ActivityDtos;
 using EntityLayer.Entities;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyWalletUI.Controllers
 {
+    [Authorize]
     public class ActivityController : Controller
     {
         private readonly IActivityService _activityService;

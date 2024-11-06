@@ -1,10 +1,12 @@
 ﻿using DtoLayer.Dtos.UserDtos;
 using EntityLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyWalletUI.ViewComponents
 {
+    [Authorize]
     public class HomeSidebarProfileViewComponent : ViewComponent
     {
         private readonly UserManager<AppUser> _userManager;

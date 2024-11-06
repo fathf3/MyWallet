@@ -41,6 +41,7 @@ namespace BusinessLayer.Services.Concretes
         public async Task<GetActivityDto> GetActivityById(int id)
         {
             var activity = await _unitOfWork.GetRepository<Activity>().GetByIdAsync(id);
+            
             var map = _mapper.Map<GetActivityDto>(activity);
             return map;
         }

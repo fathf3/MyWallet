@@ -4,6 +4,7 @@ using BusinessLayer.Services.Abstractions;
 using DtoLayer.Dtos.CustomerDtos;
 using EntityLayer.Entities;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyWalletUI.Controllers
@@ -14,12 +15,15 @@ namespace MyWalletUI.Controllers
         private readonly IActivityService _activityService;
         private readonly IMapper _mapper;
         private readonly IValidator<Customer> _validator;
-        public CustomerController(ICustomerService customerService, IMapper mapper, IValidator<Customer> validator, IActivityService activityService)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly int _userId;
+        public CustomerController(ICustomerService customerService, IMapper mapper, IValidator<Customer> validator, IActivityService activityService, UserManager<AppUser> userManager)
         {
             _customerService = customerService;
             _mapper = mapper;
             _validator = validator;
             _activityService = activityService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -93,6 +97,11 @@ namespace MyWalletUI.Controllers
         {
             await _customerService.PassiveCustomerAsync(id);
             return RedirectToAction("Index", "Customer");
+        }
+        private async Task<int> GetUserId()
+        {
+            var value = await _userManager.FindByNameAsync(User.Identity.Name);
+            return value.Id;
         }
     }
 }

@@ -35,7 +35,13 @@ builder.Services.ConfigureApplicationCookie(opts =>
 var app = builder.Build();
 
 
-
+app.UseStatusCodePages(async x =>
+{
+    if (x.HttpContext.Response.StatusCode == 404)
+	{
+		x.HttpContext.Response.Redirect("/Error/NotFound404/");
+	}
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

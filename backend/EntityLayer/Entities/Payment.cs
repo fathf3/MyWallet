@@ -16,6 +16,8 @@ namespace EntityLayer.Entities
 
 		public int CustomerId { get; set; }
 		public Customer Customer { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
 		public DateTime PaymentDate { get; set; }
         public DateTime PaymentPeriod { get; set; }
         public bool Status { get; set; }

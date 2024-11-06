@@ -22,6 +22,11 @@
             <div class="form-group">
                 <select id="customerList" class="form-control" asp-for="CustomerId" asp-items="@(new SelectList(Model.Customers,"Id","FullName"))" required></select>
             </div>
+            <p>Kategori</p>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <div class="form-group">
+                <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id","Name"))" required></select>
+            </div>
             <p>Ödeme Durumu</p>
             <span asp-validation-for="IsPaid" class="text-danger"></span>
             <div class="form-group">
@@ -37,7 +42,7 @@
                 <select asp-for="PaymentPeriod" id="monthYear" name="PaymentPeriod" class="form-control">
                     @foreach (var item in ViewBag.MonthYearList)
                     {
-                        <option value="@item">@item.ToString("MMMM yyyy","en-us")</option>
+                        <option value="@item">@item.ToString("MMMM yyyy", new CultureInfo("tr-TR"))</option>
                     }
                 </select>
             </div>

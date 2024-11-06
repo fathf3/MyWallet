@@ -22,6 +22,7 @@ namespace EntityLayer.Entities
         public bool Status { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
+       
         public int ActivityId { get; set; }
         public Activity Activity { get; set; }
         public DateTime Date { get; set; }

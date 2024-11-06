@@ -6,10 +6,12 @@ using DtoLayer.Dtos.ExpenseDtos;
 using DtoLayer.Dtos.IncomeDtos;
 using EntityLayer.Entities;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyWalletUI.Controllers
 {
+    [Authorize]
     public class ExpenseController : Controller
     {
         private readonly IExpenseService _expenseService;

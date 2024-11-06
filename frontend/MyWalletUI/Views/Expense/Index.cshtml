@@ -50,7 +50,7 @@
                                 {
                                     <td>@expense.Description</td>
                                 }
-                                <td>@expense.ExpenseDate.ToShortDateString()</td>
+                                <td>@expense.ExpenseDate.ToString("dd.MM.yyyy")</td>
                               
                                 <td>
                                     <a onclick="deleteItem(event)" class="btn btn-outline-danger btn-group-lg" href="/Expense/Delete/@expense.Id">

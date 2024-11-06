@@ -4,12 +4,13 @@ using BusinessLayer.Services.Abstractions;
 using DtoLayer.Dtos.CategoryDtos;
 using EntityLayer.Entities;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MyWalletUI.Controllers
 {
-
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
