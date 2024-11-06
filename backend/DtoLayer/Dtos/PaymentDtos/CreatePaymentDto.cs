@@ -1,5 +1,6 @@
 ﻿using DtoLayer.Dtos.CategoryDtos;
 using DtoLayer.Dtos.CustomerDtos;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace DtoLayer.Dtos.PaymentDtos
         public decimal Amount { get; set; }
 		public bool IsPaid { get; set; }
         public bool Status { get; set; }
+        public int CategoryId { get; set; }
+        public IList<ResultCategoryDto> Categories { get; set; }
         public IList<ResultCustomerForPaymentDto> Customers { get; set; }
     }
 }

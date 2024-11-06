@@ -25,6 +25,11 @@
             <select id="customerList" class="form-control" asp-for="CustomerId" 
             asp-items="@(new SelectList(Model.Customers,"Id","FullName"))" required></select>
         </div>
+          <p>Kategori</p>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <div class="form-group">
+                <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id","Name"))" required></select>
+            </div>
         <p>Ödeme Durumu</p>
             <span asp-validation-for="IsPaid" class="text-danger"></span>
         <div class="form-group">

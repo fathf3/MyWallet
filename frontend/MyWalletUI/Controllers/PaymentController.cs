@@ -18,12 +18,14 @@ namespace MyWalletUI.Controllers
         private readonly IMapper _mapper;
         private readonly ICustomerService _customerService;
         private readonly IValidator<Payment> _validator;
-        public PaymentController(IPaymentService paymentService, IMapper mapper, ICustomerService customerService, IValidator<Payment> validator)
+        private readonly ICategoryService _categoryService;
+        public PaymentController(IPaymentService paymentService, IMapper mapper, ICustomerService customerService, IValidator<Payment> validator, ICategoryService categoryService)
         {
             _paymentService = paymentService;
             _mapper = mapper;
             _customerService = customerService;
             _validator = validator;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -42,7 +44,10 @@ namespace MyWalletUI.Controllers
             var monthYearList = TimeHelper.GetMonthYearList();
             ViewBag.MonthYearList = monthYearList;
             var map = _mapper.Map<UpdatePaymentDto>(payment);
+           
+            var categories = await _categoryService.GetAllActiveCategoriesForIncome();
             map.Customers = customers;
+            map.Categories = categories;
             return View(map);
         }
         [HttpPost]
@@ -57,7 +62,9 @@ namespace MyWalletUI.Controllers
                 return RedirectToAction("Index", "Payment");
             }
             var customers = await _customerService.GetAllActiveCustomers();
+            var categories = await _categoryService.GetAllActiveCategoriesForIncome();
             updatePaymentDto.Customers = customers;
+            updatePaymentDto.Categories = categories;
             result.AddModelState(this.ModelState);
             return View(updatePaymentDto);
         }
@@ -67,8 +74,9 @@ namespace MyWalletUI.Controllers
         {
             var customers = await _customerService.GetAllActiveCustomers();
             var monthYearList = TimeHelper.GetMonthYearList();
+            var categories = await _categoryService.GetAllActiveCategoriesForIncome();
             ViewBag.MonthYearList = monthYearList;
-            return View(new CreatePaymentDto { Customers = customers });
+            return View(new CreatePaymentDto { Customers = customers , Categories = categories});
         }
 
         [HttpPost]
@@ -84,7 +92,9 @@ namespace MyWalletUI.Controllers
                 return RedirectToAction("Index", "Payment");
             }
             var customers = await _customerService.GetAllActiveCustomers();
+            var categories = await _categoryService.GetAllActiveCategoriesForIncome();
             createPaymentDto.Customers = customers;
+            createPaymentDto.Categories = categories;
             result.AddModelState(this.ModelState);
             return View(createPaymentDto);
         }

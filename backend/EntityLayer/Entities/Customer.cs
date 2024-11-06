@@ -27,6 +27,7 @@ namespace EntityLayer.Entities
 		[ForeignKey("Activity")]
         public int ActivityId { get; set; }
         public Activity Activity { get; set; }
+        
         public ICollection<Payment> Payments { get; set; }
         public ICollection<Seans> Seans { get; set; }
         

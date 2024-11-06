@@ -23,7 +23,9 @@ namespace EntityLayer.Entities
 		public string Description { get; set; }
 		public DateTime ExpenseDate { get; set; }
         public bool Status { get; set; }
+
         public int CategoryId { get; set; }
 		public Category Category { get; set; }
-	}
+       
+    }
 }

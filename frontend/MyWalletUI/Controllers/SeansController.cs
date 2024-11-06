@@ -2,11 +2,12 @@
 using BusinessLayer.Services.Abstractions;
 using DtoLayer.Dtos.SeansDtos;
 using EntityLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyWalletUI.Controllers
 {
-
+    [Authorize]
     public class SeansController : Controller
     {
         private readonly ISeansService _seansService;

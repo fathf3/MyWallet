@@ -4,6 +4,7 @@ using DataAccessLayer.UnitOfWorks.Abstractions;
 using DtoLayer.Dtos.IncomeDtos;
 using DtoLayer.Dtos.PaymentDtos;
 using EntityLayer.Entities;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BusinessLayer.Services.Concretes
 {
@@ -32,6 +33,20 @@ namespace BusinessLayer.Services.Concretes
         public async Task CreatePaymentAsync(CreatePaymentDto createDto)
         {
             var map = _mapper.Map<Payment>(createDto);
+            var customers = await _customerService.GetCustomerById(createDto.CustomerId);
+            
+            if (createDto.IsPaid)
+            {
+                await _incomeService.CreateIncomeAsync(new CreateIncomeDto
+                {
+                    Cost = createDto.Amount,
+                    CategoryId = createDto.CategoryId,
+                    IncomeDate = createDto.PaymentDate,
+                    Status = true,
+                    Description = $"{customers.Name} {customers.LastName}  - {createDto.PaymentPeriod.ToString("MMMM yyyy")} dönemi için ödemesini yapmıştır. "
+
+                });
+            }
             await _unitOfWork.GetRepository<Payment>().AddAsync(map);
            
             await _unitOfWork.SaveAsync();
@@ -69,7 +84,19 @@ namespace BusinessLayer.Services.Concretes
         {
             var map = _mapper.Map<Payment>(updateDto);
             await _unitOfWork.GetRepository<Payment>().UpdateAsync(map);
-          
+            var customers = await _customerService.GetCustomerById(updateDto.CustomerId);
+            if (updateDto.IsPaid)
+            {
+                await _incomeService.CreateIncomeAsync(new CreateIncomeDto
+                {
+                    Cost = updateDto.Amount,
+                    CategoryId = updateDto.CategoryId,
+                    IncomeDate = updateDto.PaymentDate,
+                    Status = true,
+                    Description = $"{customers.Name} {customers.LastName} müşterisi - {updateDto.PaymentPeriod.ToString("MMMM yyyy")} dönemi için ödemesini yapmıştır. "
+
+                });
+            }
             await _unitOfWork.SaveAsync();
             return updateDto.Id.ToString();
         }

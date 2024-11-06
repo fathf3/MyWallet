@@ -17,7 +17,7 @@
                     <input asp-for="Cost" type="text" class="form-control" placeholder="500" aria-describedby="basic-addon1" required>
                 </div>
             </div>
-            <p>Gelir</p>
+            <p>Kategori</p>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
             <div class="form-group">
                 <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id","Name"))" required></select>
