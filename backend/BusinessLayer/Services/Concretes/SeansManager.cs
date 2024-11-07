@@ -56,11 +56,21 @@ namespace BusinessLayer.Services.Concretes
 
         }
 
+        public async Task<List<GetSeansForScheduleDto>> GetAllSeans()
+        {
+            var seans = await _unitOfWork
+               .GetRepository<Seans>()
+               .GetAllAsync(null, x => x.Customer, y => y.Activity);
+            var map = _mapper.Map<List<GetSeansForScheduleDto>>(seans);
+            return map;
+        }
+
         public async Task<List<ResultSeansDto>> GetAllSeansWithCustomer(int id)
         {
             var seans = await _unitOfWork
                 .GetRepository<Seans>()
                 .GetAllAsync(x => x.CustomerId == id);
+            
             var map = _mapper.Map<List<ResultSeansDto>>(seans);
             return map;
         }

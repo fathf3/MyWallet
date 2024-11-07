@@ -4,6 +4,7 @@ using DtoLayer.Dtos.SeansDtos;
 using EntityLayer.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyWalletUI.Models;
 
 namespace MyWalletUI.Controllers
 {
@@ -22,6 +23,35 @@ namespace MyWalletUI.Controllers
             _activityService = activityService;
             _customerService = customerService;
             _mapper = mapper;
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+           
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSessions()
+        {
+            var result = await _seansService.GetAllSeans();
+            var sessions = new List<ScheduleVM>();
+            result.ForEach(s =>
+            {
+                sessions.Add(
+                    new ScheduleVM
+                    {
+                        title = $"{s.Customer.Name} {s.Customer.LastName} - {s.Activity.Name}",
+                        start = s.Date,
+                        end = s.Date.AddMinutes(30)
+                    });
+            });
+
+
+
+            return new JsonResult(sessions);
         }
 
         [HttpGet]

@@ -4,11 +4,13 @@ using BusinessLayer.Services.Abstractions;
 using DtoLayer.Dtos.CustomerDtos;
 using EntityLayer.Entities;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyWalletUI.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;

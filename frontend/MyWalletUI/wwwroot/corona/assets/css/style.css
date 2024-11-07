@@ -18941,8 +18941,9 @@ body.avgrund-active {
     content: "\F141"; }
 
 .fc .fc-button-group .fc-button {
-  background-color: #ffffff;
-  margin: 0; }
+    background-color: #d4b80d;
+    margin: 0;
+}
   .fc .fc-button-group .fc-button.fc-state-active {
     color: #fc424a; }
 
@@ -18970,7 +18971,7 @@ body.avgrund-active {
 .fc .fc-event {
   border: 0;
   color: #ffffff;
-  padding: .5rem; }
+  padding: .2rem; }
   .fc .fc-event.fc-start {
     background: #0090e7;
     border-radius: 4px;
@@ -18978,7 +18979,7 @@ body.avgrund-active {
   .fc .fc-event.fc-not-start, .fc .fc-event.fc-not-end {
     background: #fc424a;
     border-left: 4px solid #fc424a;
-    padding-left: .5rem; }
+    padding-left: .2rem; }
   .fc .fc-event.fc-not-end {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }
