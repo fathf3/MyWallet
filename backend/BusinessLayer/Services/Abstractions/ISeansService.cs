@@ -9,6 +9,7 @@ namespace BusinessLayer.Services.Abstractions
 {
     public interface ISeansService
     {
+        Task<List<GetSeansForScheduleDto>> GetAllSeans();
         Task<List<ResultSeansDto>> GetAllSeansWithCustomer(int id);
         Task CreateSeansAsync(CreateSeansDto createDto);
         Task<bool> UpdateAsync(UpdateSeansDto updateSeansDto);

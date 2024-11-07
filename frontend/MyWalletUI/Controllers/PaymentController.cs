@@ -6,12 +6,14 @@ using DtoLayer.Dtos.IncomeDtos;
 using DtoLayer.Dtos.PaymentDtos;
 using EntityLayer.Entities;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyWalletUI.Helper;
 using System.Globalization;
 
 namespace MyWalletUI.Controllers
 {
+    [Authorize]
     public class PaymentController : Controller
     {
         private readonly IPaymentService _paymentService;
