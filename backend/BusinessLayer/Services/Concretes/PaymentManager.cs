@@ -125,9 +125,9 @@ namespace BusinessLayer.Services.Concretes
             var startOfLastMonth = new DateTime(lastMonth.Year, lastMonth.Month, 1);
             var endOfLastMonth = startOfLastMonth.AddMonths(1).AddDays(-1);
 
-
-            var lastMonthPayments = await _unitOfWork.GetRepository<Payment>().GetAllAsync(p => p.PaymentPeriod >= startOfLastMonth && p.PaymentPeriod <= endOfLastMonth, y => y.Category);
-
+            // Gecen ay odeme yapan aktif musterileri, kategori ile birlikte aldik
+            var lastMonthPayments = await _unitOfWork.GetRepository<Payment>().GetAllAsync(p => p.PaymentPeriod >= startOfLastMonth && p.PaymentPeriod <= endOfLastMonth && p.Customer.Status, y => y.Customer, y=> y.Category);
+            
             var currentMonth = DateTime.Now;
             var startOfCurrentMonth = new DateTime(currentMonth.Year, currentMonth.Month, 1);
 
