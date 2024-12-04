@@ -5,6 +5,7 @@ using DtoLayer.Dtos.IncomeDtos;
 using DtoLayer.Dtos.PaymentDtos;
 using EntityLayer.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BusinessLayer.Services.Concretes
@@ -35,7 +36,7 @@ namespace BusinessLayer.Services.Concretes
         {
             var map = _mapper.Map<Payment>(createDto);
             var customers = await _customerService.GetCustomerById(createDto.CustomerId);
-            
+
             if (createDto.IsPaid)
             {
                 await _incomeService.CreateIncomeAsync(new CreateIncomeDto
@@ -49,7 +50,7 @@ namespace BusinessLayer.Services.Concretes
                 });
             }
             await _unitOfWork.GetRepository<Payment>().AddAsync(map);
-           
+
             await _unitOfWork.SaveAsync();
         }
 
@@ -57,13 +58,13 @@ namespace BusinessLayer.Services.Concretes
         {
             var payment = await _unitOfWork.GetRepository<Payment>().GetByIdAsync(id);
             await _unitOfWork.GetRepository<Payment>().DeleteAsync(payment);
-            
-           
+
+
             await _unitOfWork.SaveAsync();
             return payment.Id.ToString();
         }
 
-        
+
         public async Task<string> ActivePaymentAsync(int id)
         {
             var payment = await _unitOfWork.GetRepository<Payment>().GetByIdAsync(id);
@@ -116,6 +117,36 @@ namespace BusinessLayer.Services.Concretes
             var payments = await _unitOfWork.GetRepository<Payment>().GetAllAsync(x => x.CustomerId == id);
             var map = _mapper.Map<List<ResultPaymentDto>>(payments);
             return map;
+        }
+
+        public async Task AddMonthlyPayments()
+        {
+            var lastMonth = DateTime.Now.AddMonths(-1);
+            var startOfLastMonth = new DateTime(lastMonth.Year, lastMonth.Month, 1);
+            var endOfLastMonth = startOfLastMonth.AddMonths(1).AddDays(-1);
+
+
+            var lastMonthPayments = await _unitOfWork.GetRepository<Payment>().GetAllAsync(p => p.PaymentPeriod >= startOfLastMonth && p.PaymentPeriod <= endOfLastMonth, y => y.Category);
+
+            var currentMonth = DateTime.Now;
+            var startOfCurrentMonth = new DateTime(currentMonth.Year, currentMonth.Month, 1);
+
+            foreach (var payment in lastMonthPayments)
+            {
+                // Yeni ödeme nesnesi oluştur
+                var newPayment = new CreatePaymentDto
+                {
+                    CustomerId = payment.CustomerId, // Müşteri bilgisi
+                    PaymentDate = startOfCurrentMonth, // Yeni ayın ilk günü
+                    PaymentPeriod = startOfCurrentMonth, // Yeni ödeme dönemi
+                    Amount = payment.Amount, // Geçen ayki ödeme miktarı
+                    CategoryId = payment.CategoryId, // Geçen ayki kategori bilgisi
+                    Status = payment.Status, // Ödeme durumu
+                    IsPaid =false // Ödemenin durumu
+                };
+                await CreatePaymentAsync(newPayment);
+               
+            }
         }
     }
 }

@@ -43,7 +43,7 @@ namespace MyWalletUI.Controllers
                 sessions.Add(
                     new ScheduleVM
                     {
-                        title = $"{s.Customer.Name} {s.Customer.LastName} - {s.Activity.Name}",
+                        title = $"{s.Customer.Name} {s.Customer.LastName}-{s.Activity.Name} ",
                         start = s.Date,
                         end = s.Date.AddMinutes(30)
                     });

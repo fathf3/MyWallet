@@ -117,5 +117,20 @@ namespace BusinessLayer.Services.Concretes
                 return data;
             }
         }
+        public async Task<decimal> GetExpenseWithTwoDateFilter(bool status, DateTime startDate, DateTime endDate)
+        {
+            {
+                startDate = startDate == default ? DateTime.Now : startDate;
+                endDate = endDate == default ? DateTime.Now.AddMonths(1) : endDate;
+               
+
+                var sumExpense = await _unitOfWork
+             .GetRepository<Expense>()
+             .SumAsync(x => x.Status && (x.ExpenseDate >= startDate && x.ExpenseDate <= endDate), y => y.Cost);
+
+
+                return sumExpense;
+            }
+        }
     }
 }

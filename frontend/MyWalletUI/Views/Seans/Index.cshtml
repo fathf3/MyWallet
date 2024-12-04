@@ -11,10 +11,41 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
-  
 
-
+    const formatter = new Intl.DateTimeFormat("tr-TR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+    });
+    var colors = [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#d0e0e3', '#b2d75f'
+    ];
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -24,6 +55,19 @@
             initialView: 'dayGridMonth',
             timeZone: 'local',
             locale: 'tr',
+            eventClick: function (info) {
+                const formattedStart = formatter.format(info.event.start);
+                const formattedEnd = formatter.format(info.event.end);
+                
+                
+                alert('Event: ' + info.event.title 
+                + '\n'
+                    + 'Seans Baslangıç : ' + formattedStart
+                + '\n'
+                    + 'Seans Bitiş : ' + formattedEnd);
+                // change the border color just for fun
+                info.el.style.borderColor = 'red';
+            },
             events: {
                 url: '/Seans/GetSessions',
                 method: 'GET',
@@ -34,49 +78,31 @@
                 failure: function () {
                     alert('there was an error while fetching events!');
                 },
-                color: 'yellow',   // a non-ajax option
+                
+                
+                color : colors, // a non-ajax option
                 textColor: 'black', // a non-ajax option
-                
-                
+
+                eventDidMount: function (info) {
+                    console.log(info.event.title);
+                    // {description: "Lecture", department: "BioChemistry"}
+                }
             },
             headerToolbar: {
                             left: 'prev,next today',
                             center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay,list',
                 minTime: "08:00:00",
                 maxTime: "22:00:00",
                         },
-        
+            
+           
         });
         calendar.render();
     });
 
 
-    // document.addEventListener('DOMContentLoaded', function ()
-    // {
-    //     var calendarEl = document.getElementById('calendar');
 
-    //     // Razor modelden JSON'a dönüştürülmüş oturum verileri
-
-
-    //     var calendar = new FullCalendar.Calendar(calendarEl, {
-    //         initialView: 'dayGridMonth',
-
-    //         events: [{
-    //             title : title,
-    //             start: startDate,
-    //             end : endDate
-
-    //         }],  // Oturumları doğrudan takvime ekliyoruz
-    //         headerToolbar: {
-    //             left: 'prev,next today',
-    //             center: 'title',
-    //             right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    //         }
-    //     });
-
-    //     calendar.render();
-    // });
 </script>
 
 @section Scripts {

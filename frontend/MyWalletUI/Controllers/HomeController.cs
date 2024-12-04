@@ -32,7 +32,21 @@ namespace MyWalletUI.Controllers
            
             return View();
         }
-        
+        //[HttpGet]
+        //public async Task<IActionResult> GetTwoDate(DateTime startDate, DateTime endDate)
+        //{
+        //   var income = await _incomeService.GetIncomeWithTwoDateFilter(true, startDate, endDate);
+        //   var expense = await _expenseService.GetExpenseWithTwoDateFilter(true, startDate, endDate);
+
+        //    return View();
+        //}
+        public async Task<JsonResult> GetTwoDate(DateTime startDate, DateTime endDate)
+        {
+            var income = await _incomeService.GetIncomeWithTwoDateFilter(true, startDate, endDate);
+            var expense = await _expenseService.GetExpenseWithTwoDateFilter(true, startDate, endDate);
+            return Json(new { Income = income.ToString("C"), Expense = expense.ToString("C") });
+
+        }
     }
 
 }
