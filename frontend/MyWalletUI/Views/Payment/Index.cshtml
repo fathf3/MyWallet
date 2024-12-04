@@ -9,11 +9,11 @@
 
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body ">
 
 
             <a class="nav-link btn btn-success create-new-button" href="/Payment/Create/">+ Yeni Ödeme Ekle</a>
-          
+           
             <hr />
             <div class="table-responsive">
                 <table class="table" id="paymentsTable">
@@ -73,15 +73,63 @@
                     </tbody>
                 </table>
             </div>
+
+            <hr />
+            <div style="display: flex; align-content:end">
+                <button class="btn btn-primary  add-to-period" style=" display: flex;  text-align: right;" type="submit">Yeni Ödeme Dönemi Ekle</button>
+            </div>
         </div>
+        
+       
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+  
+    $(document).on('click', '.add-to-period', function () {
+        // SweetAlert ile onay penceresini göster
+        swal({
+            title: "Yeni Ödeme Dönemi Eklemek İstiyor musun?",
+            text: "Geçen Ödeme döneminde kayıtlı olan müşteriler için Bu ay için yeni ödeneme dönemi oluşturur.!",
+            icon: "warning",
+            buttons: true,  // Evet ve Hayır butonlarını ekle
+            dangerMode: true,  // Eğer kullanıcı "Hayır" derse tehlike modu
+        })
+            .then((willProceed) => {  // Kullanıcının yanıtını al
+                if (willProceed) {
+                    // Kullanıcı "Evet" dediyse AJAX isteğini gönder
+                    $.ajax({
+                        url: '/Payment/AddNewPaymentPeriod',
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.success) {
+                                swal(response.message);
+                                setTimeout(function () {
+                                    location.reload(); 
+                                }, 4000);
+                            } else {
+                                swal("Bir hata oluştu.");
+                            }
+                        },
+                        error: function () {
+                            swal("Bir hata oluştu.");
+                        }
+                    });
+                } else {
+                    // Kullanıcı "Hayır" dediyse, işlem yapılmaz
+                    swal("İşlem iptal edildi.");
+                }
+            });
+    });
+</script>
 <script>
     function deleteItem(e) {
         if (!confirm(`Silmek istediğinize emin misiniz?`)) e.preventDefault();
     }
+  
 </script>
+
 @section Scripts{
     <script src="~/js/paymentIndex.js" type="application/ecmascript"></script>
 }

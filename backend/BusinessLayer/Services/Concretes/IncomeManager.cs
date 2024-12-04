@@ -95,6 +95,7 @@ namespace BusinessLayer.Services.Concretes
             
             return data;
         }
+       
         public async Task<decimal> GetTotalIncomeThisMonth()
         {
 
@@ -122,7 +123,19 @@ namespace BusinessLayer.Services.Concretes
               .SumAsync(x => x.Status && (x.IncomeDate >= lastWeek && x.IncomeDate <= today), y => y.Cost);
             return sumIncome;
         }
+        public async Task<decimal> GetIncomeWithTwoDateFilter(bool status, DateTime startDate, DateTime endDate)
+        {
+            {
+                startDate = startDate == default ? DateTime.Now : startDate;
+                endDate = endDate == default ? DateTime.Now.AddMonths(1) : endDate;
+              
+                var sumIncome = await _unitOfWork
+             .GetRepository<Income>()
+             .SumAsync(x => x.Status && (x.IncomeDate >= startDate && x.IncomeDate <= endDate), y => y.Cost);
 
+                return sumIncome;
+            }
+        }
 
 
 

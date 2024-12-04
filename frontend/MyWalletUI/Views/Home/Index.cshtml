@@ -10,8 +10,11 @@
 
 
 <div class="row">
+    <!-- HTML Inputlar -->
    
-
+    <br />
+    <br />
+    <br />
     <div class="col-lg-6 grid-margin stretch-card">
         <div class="card">
 
@@ -67,6 +70,9 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
+<!-- jQuery UI -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script>
     
     jQuery(document).ready(function ($) {
@@ -76,6 +82,47 @@
         });
         $("form").find(":input").prop("disabled", false);
     });
-
+   
 </script>
 
+<script>
+    $(document).ready(function () {
+        // "Ara" butonuna tıklanınca işlem yap
+        $('#searchButton').click(function () {
+            // Tarih aralıklarını al
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+
+            // Eğer tarih aralıkları boşsa, kullanıcıyı uyar
+            if (!startDate || !endDate) {
+                alert('Lütfen geçerli bir tarih aralığı girin.');
+                return;
+            }
+
+            // AJAX isteği gönder
+            $.ajax({
+                url: '/Home/GetTwoDate',
+                type: 'GET',
+                data: {
+                    startDate: startDate,
+                    endDate: endDate
+                },
+                success: function (response) {
+                    // Gelir ve gideri al ve sayfada görüntüle
+                    
+                    var resultsHtml = response.income ;
+                    var resultsHtml2 =  response.expense ;
+
+                    // Sonuçları div içine yazdır
+                    $('#incomeResults').html(resultsHtml);
+                    $('#expenseResults').text(resultsHtml2);
+                   
+                },
+                error: function (xhr, status, error) {
+                    // Hata mesajı
+                    $('#financialResults').html('Bir hata oluştu.');
+                }
+            });
+        });
+    });
+</script>

@@ -14,6 +14,7 @@ namespace BusinessLayer.Services.Abstractions
         Task<List<ResultExpenseDto>> GetAllExpenses();
         Task<List<ResultExpenseDto>> GetAllExpensesWithCategory();
         Task<List<GetMonthlyExpenseDto>> GetExpenseWithDateFilter(bool status, DateTime date);
+       
         Task CreateExpenseAsync(CreateExpenseDto createDto);
         Task<GetExpenseDto> GetExpenseById(int id);
         Task<string> UpdateExpenseAsync(UpdateExpenseDto updateDto);
@@ -22,7 +23,8 @@ namespace BusinessLayer.Services.Abstractions
         Task<decimal> GetTotalExpenseThisMonth();
         Task<decimal> GetTotalExpenseDay();
         Task<decimal> GetTotalExpenseThisWeek();
-        
+        Task<decimal> GetExpenseWithTwoDateFilter(bool status, DateTime startDate, DateTime endDate);
+
 
 
     }

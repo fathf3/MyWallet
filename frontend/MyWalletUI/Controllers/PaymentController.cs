@@ -108,7 +108,14 @@ namespace MyWalletUI.Controllers
             return RedirectToAction("Index", "Payment");
 
         }
-
+        [HttpPost]
+        public async Task<JsonResult> AddNewPaymentPeriod()
+        {
+            await _paymentService.AddMonthlyPayments();
+            DateTime date = DateTime.Now; 
+            string monthYear = date.ToString("MMMM yyyy"); 
+            return Json(new { success = true, message = $"{monthYear} ödeme dönemi için yeni veriler eklendi." });
+        }
 
     }
 }

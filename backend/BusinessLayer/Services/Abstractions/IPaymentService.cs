@@ -17,7 +17,9 @@ namespace BusinessLayer.Services.Abstractions
 		Task<GetPaymentDto> GetPaymentById(int id);
 		Task<string> UpdatePaymentAsync(UpdatePaymentDto updateDto);
 		Task<string> DeletePaymentAsync(int id);
-		
-        
+		Task AddMonthlyPayments();
+
+
+
     }
 }

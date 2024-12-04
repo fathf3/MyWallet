@@ -13,6 +13,7 @@ namespace BusinessLayer.Services.Abstractions
 		Task<List<ResultIncomeDto>> GetAllIncomes();
 		Task<List<ResultIncomeDto>> GetAllIncomesWithCategory();
 		Task<List<GetMonthlyIncomeDto>> GetIncomeWithDateFilter(bool status,DateTime date);
+        
         Task CreateIncomeAsync(CreateIncomeDto createDto);
 		Task<GetIncomeDto> GetIncomeById(int id);
 		Task<string> UpdateIncomeAsync(UpdateIncomeDto updateDto);
@@ -22,6 +23,7 @@ namespace BusinessLayer.Services.Abstractions
 		Task<decimal> GetTotalIncomeThisMonth();
 		Task<decimal> GetTotalIncomeDay();
 		Task<decimal> GetTotalIncomeThisWeek();
+        Task<decimal> GetIncomeWithTwoDateFilter(bool status, DateTime startDate, DateTime endDate);
 
     }
 }
