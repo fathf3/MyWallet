@@ -8,7 +8,7 @@ namespace DtoLayer.Dtos.PaymentDtos
 		public int CustomerId { get; set; }
 		public DateTime PaymentDate { get; set; }
         public DateTime PaymentPeriod { get; set; }
-        public IList<ResultCategoryDto> Categories { get; set; }
+        public int CategoryId { get; set; }
         public decimal Amount { get; set; }
 		public bool IsPaid { get; set; }
         public bool Status { get; set; }

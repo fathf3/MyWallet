@@ -107,7 +107,7 @@ namespace BusinessLayer.Services.Concretes
         {
             var payments = await _unitOfWork
                 .GetRepository<Payment>()
-                .GetAllAsync(null, y => y.Customer);
+                .GetAllAsync(null, y => y.Customer, y=> y.Category);
             var result = _mapper.Map<List<ResultPaymentDto>>(payments);
             return result;
         }

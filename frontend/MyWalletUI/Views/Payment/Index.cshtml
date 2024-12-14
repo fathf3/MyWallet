@@ -24,6 +24,7 @@
                             <th>Ücret</th>
                             <th>Ödeme Dönemi</th>
                             <th>Ödeme Tarihi</th>
+                            <th>Kategori</th>
                             <th>Aktif</th> 
                             <th>Sil</th>
                             <th>Güncelle</th>
@@ -40,6 +41,7 @@
                                 <td>@payment.Amount.ToString("C")</td>
                                 <td>@payment.PaymentPeriod.ToString("MMMM yyyy")</td>
                                 <td>@payment.PaymentDate.ToShortDateString()</td>
+                                <td>@payment.Category.Name</td>
                                 <td>
                                     @if (payment.IsPaid)
                                     {
